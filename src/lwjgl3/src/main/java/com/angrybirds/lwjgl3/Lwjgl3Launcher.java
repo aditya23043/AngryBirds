@@ -1,8 +1,8 @@
 package com.angrybirds.lwjgl3;
 
+import com.angrybirds.Main;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.angrybirds.Main;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -30,6 +30,7 @@ public class Lwjgl3Launcher {
         configuration.setWindowedMode(960, 540);
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+        configuration.setResizable(false);
         return configuration;
     }
 }
