@@ -3,8 +3,11 @@ package com.angrybirds;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -22,9 +25,18 @@ public class Main extends ApplicationAdapter {
 	private Image bg_image;
 	private Stage stage;
 	private Table table;
+    private BitmapFont font;
 
 	@Override
 	public void create() {
+
+        // Generate font from the .ttf file
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SF-Pro-Text-Medium.otf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 32;  // Set the font size
+        parameter.color = Color.WHITE;  // Font color
+        font = generator.generateFont(parameter);  // Generate BitmapFont
+        generator.dispose();  // Dispose of the generator when done
 
 		// BG IMAGE
 		bg_texture = new Texture(Gdx.files.internal("img/vecteezy_background-for-presentation-green-grass-with-flower-under_17308322-1.jpg"));
