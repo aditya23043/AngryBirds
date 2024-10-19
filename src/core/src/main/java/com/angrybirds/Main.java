@@ -3,9 +3,11 @@ package com.angrybirds;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -28,6 +30,14 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void create() {
 
+        // Generate font from the .ttf file
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/FiraSansCondensed-Bold.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 64;  // Set the font size
+        parameter.color = Color.WHITE;  // Font color
+        font = generator.generateFont(parameter);  // Generate BitmapFont
+        generator.dispose();  // Dispose of the generator when done
+
 		// BG IMAGE
 		bg_texture = new Texture(Gdx.files.internal("530909.jpg"));
 		bg_image = new Image(bg_texture);
@@ -35,6 +45,7 @@ public class Main extends ApplicationAdapter {
 
 		// LOADING SKIN
 		skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
+        skin.add("default-font", font);
 
 		// STAGE
 		stage = new Stage(new ScreenViewport());
@@ -47,8 +58,8 @@ public class Main extends ApplicationAdapter {
 		stage.addActor(table);
 
 		// MAIN TITLE
-		//Label title_label = new Label("Angry Birds", skin, "title");
-		//title_label.setFontScale(2);
+		Label title_label = new Label("Angry Birds", skin, "title");
+		title_label.setFontScale(2);
 
 		// BUTTONS
 		TextButton playButton = new TextButton("Play", skin);
