@@ -29,7 +29,7 @@ public class Main extends ApplicationAdapter {
 	public void create() {
 
 		// BG IMAGE
-		bg_texture = new Texture(Gdx.files.internal("img/vecteezy_background-for-presentation-green-grass-with-flower-under_17308322-1.jpg"));
+		bg_texture = new Texture(Gdx.files.internal("530909.jpg"));
 		bg_image = new Image(bg_texture);
 		bg_image.setFillParent(true);
 
@@ -47,8 +47,8 @@ public class Main extends ApplicationAdapter {
 		stage.addActor(table);
 
 		// MAIN TITLE
-		Label title_label = new Label("Angry Birds", skin, "title");
-		title_label.setFontScale(2);
+		//Label title_label = new Label("Angry Birds", skin, "title");
+		//title_label.setFontScale(2);
 
 		// BUTTONS
 		TextButton playButton = new TextButton("Play", skin);
@@ -57,9 +57,9 @@ public class Main extends ApplicationAdapter {
 		TextButton exitButton = new TextButton("Exit", skin);
 
 		// PLACEMENT (not the btech one lol)
-		table.top().pad(50);
-		table.add(title_label).center().padBottom(50);
-		table.row();
+		table.top().pad(150);
+		//table.add(title_label).center().padBottom(50);
+		//table.row();
         table.add(playButton).width(200).padBottom(20);  // Set button width and padding
         table.row();
         table.add(newLevelButton).width(200).padBottom(20);
