@@ -115,7 +115,7 @@ public class LevelManagerScreen extends ScreenAdapter {
             }
             }
             else{
-                table.add(levelbutton).size(100,100).pad(10);
+                table.add(levelbutton).size(150,150).pad(10);
             }
         }
     }
