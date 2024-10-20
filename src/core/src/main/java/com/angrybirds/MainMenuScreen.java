@@ -26,13 +26,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        // custom font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/FiraSansCondensed-Bold.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 64;  // Set the font size
-        parameter.color = Color.WHITE;  // Font color
-        font = generator.generateFont(parameter);  // Generate BitmapFont
-        generator.dispose();  // Dispose of the generator when done
+        // custom fonts
+        BitmapFont main_title_font = font_set("fonts/FiraSansCondensed-Bold.ttf", 128, Color.WHITE);
+        BitmapFont button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE);
 
         // viewport
         viewport = new ExtendViewport(960, 540);
@@ -41,6 +37,10 @@ public class MainMenuScreen extends ScreenAdapter {
         // skin
         skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         skin.add("default-font", font);
+
+        // Update styles to use custom font
+        skin.get(Label.LabelStyle.class).font = font;  // Set default Label style font
+        skin.get(TextButton.TextButtonStyle.class).font = font;  // Set default TextButton style font
 
         // table
         table = new Table();
@@ -82,7 +82,12 @@ public class MainMenuScreen extends ScreenAdapter {
     }
     
     private BitmapFont font_set(String font_name, int font_size, Color color){
-
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = font_size;  // Set the font size
+        parameter.color = color;  // Font color
+        font = generator.generateFont(parameter);  // Generate BitmapFont
+        generator.dispose();  // Dispose of the generator when done
         return font;
     }
 
