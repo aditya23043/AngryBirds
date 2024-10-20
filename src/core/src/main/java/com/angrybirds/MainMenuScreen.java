@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,11 +25,13 @@ public class MainMenuScreen extends ScreenAdapter {
     private Skin skin;
     private Table table;
     private BitmapFont font;
+    private Texture bg_img_texture;
+    private Image bg_img;
 
     @Override
     public void show() {
         // custom fonts
-        BitmapFont main_title_font = font_set("fonts/FiraSansCondensed-Bold.ttf", 128, Color.WHITE);
+        BitmapFont main_title_font = font_set("fonts/Ubuntu-M.ttf", 64, Color.WHITE);
         BitmapFont button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE);
 
         // viewport
@@ -42,13 +46,20 @@ public class MainMenuScreen extends ScreenAdapter {
         skin.get(Label.LabelStyle.class).font = font;  // Set default Label style font
         skin.get(TextButton.TextButtonStyle.class).font = font;  // Set default TextButton style font
 
+        // background image
+        bg_img_texture = new Texture("img/vecteezy_background-for-presentation-green-grass-with-flower-under_17308322-1.jpg");
+        bg_img = new Image(bg_img_texture);
+        bg_img.setSize(960, 540);
+
         // table
         table = new Table();
         table.setFillParent(true);
+        stage.addActor(bg_img);
         stage.addActor(table);
 
         // main title
         Label main_title = new Label("Angry Birds", skin, "title");
+        main_title.setScale(4);
         table.padTop(20);
         table.add(main_title).center().padBottom(50);
         table.row();
