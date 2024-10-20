@@ -1,6 +1,5 @@
 package com.angrybirds;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -8,50 +7,46 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class MainMenuScreen extends ScreenAdapter {
+public class PlayScreen extends ScreenAdapter {
 
     private Stage stage;
     private Viewport viewport;
     private Skin skin;
     private Table table;
-    private BitmapFont main_title_font;
+    private BitmapFont level_font;
     private BitmapFont button_font;
+    private BitmapFont credit_font;
     private Texture bg_img_texture;
     private Image bg_img;
 
     @Override
     public void show() {
-        // custom fonts
-        main_title_font = font_set("fonts/OleoScriptSwashCaps-Regular.ttf", 48, Color.WHITE);
-        button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE);
-
-        // viewport
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
+        level_font = font_set("fonts/Ubuntu-M.ttf", 12, Color.WHITE, Color.WHITE, 0, 0);
+        button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE, Color.BLACK, 3, 3);
+        credit_font = font_set("fonts/Ubuntu-M.ttf", 8, Color.GRAY, Color.BLACK, 1, 1);
 
-        // skin
         skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         skin.add("default-font", button_font);
-        skin.add("font-label", main_title_font);
+        skin.add("font-label", level_font);
 
-        // Update styles to use custom font
-        skin.get(Label.LabelStyle.class).font = main_title_font;  // Set default Label style font
-        skin.get("title", Label.LabelStyle.class).font = main_title_font;  // Set default Label style font
-        skin.get(TextButton.TextButtonStyle.class).font = button_font;  // Set default TextButton style font
+        skin.get(Label.LabelStyle.class).font = level_font;
+        skin.get("subtitle", Label.LabelStyle.class).font = level_font;
+        skin.get("default", Label.LabelStyle.class).font = credit_font;
+        skin.get(TextButton.TextButtonStyle.class).font = button_font;
 
         // background image
-        bg_img_texture = new Texture("img/vecteezy_background-for-presentation-green-grass-with-flower-under_17308322-1.jpg");
+        bg_img_texture = new Texture("img/level1.jpg");
         bg_img = new Image(bg_img_texture);
         bg_img.setSize(960, 540);
 
@@ -61,28 +56,41 @@ public class MainMenuScreen extends ScreenAdapter {
         stage.addActor(bg_img);
         stage.addActor(table);
 
-        // main title
-        Label main_title = new Label("Angry Birds", skin, "title");
-        main_title.setAlignment(1);
-        table.padTop(20);
-        table.add(main_title).center().padBottom(50).width(350).height(100);
-        table.row();
+        // pause button
+        TextButton pause_button = new TextButton("Pause", skin, "default");
+        pause_button.setPosition(10, viewport.getWorldHeight()-40);
+        stage.addActor(pause_button);
 
-        // buttons
-        button_add("Play").addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
-            }            
-        });
-        button_add("Select Level");
-        button_add("Help");
-        button_add("Exit").addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
+        // level header
+        Label level_title = new Label("Level 1", skin, "title");
+        level_title.setAlignment(1);
+        level_title.setPosition(viewport.getWorldWidth()/2-60, viewport.getWorldHeight()-70);
+        stage.addActor(level_title);
+
+        // credits
+        Label bg_credit = new Label("bg credits: https://in.pinterest.com/pin/616571005271619075/", skin, "default");
+        bg_credit.setPosition(viewport.getWorldWidth()/2+200, 10);
+        stage.addActor(bg_credit);
+
+        // catapult
+        Texture catapult_tex = new Texture("img/catapult.png");
+        Image catapult = new Image(catapult_tex);
+        catapult.setScale(0.25f);;
+        catapult.setPosition(100, 174);
+        stage.addActor(catapult);
+
+        // birds
+        Texture red_bird_tex = new Texture("img/red.png");
+        Image red_bird = new Image(red_bird_tex);
+        red_bird.setScale(1.2f);
+        red_bird.setPosition(60, 170);
+        stage.addActor(red_bird);
+
+        Texture red_bird_2_tex = new Texture("img/red.png");
+        Image red_bird_2 = new Image(red_bird_2_tex);
+        red_bird_2.setScale(1.2f);
+        red_bird_2.setPosition(20, 170);
+        stage.addActor(red_bird_2);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -99,12 +107,12 @@ public class MainMenuScreen extends ScreenAdapter {
         return button;
     }
     
-    private BitmapFont font_set(String font_name, int font_size, Color color){
+    private BitmapFont font_set(String font_name, int font_size, Color color, Color shadow_color, int shadow_offset_x, int shadow_offset_y){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.shadowColor = Color.BLACK; // Shadow color
-        parameter.shadowOffsetX = 3; // Horizontal offset for shadow
-        parameter.shadowOffsetY = 3; // Vertical offset for shadow
+        parameter.shadowColor = shadow_color; // Shadow color
+        parameter.shadowOffsetX = shadow_offset_x; // Horizontal offset for shadow
+        parameter.shadowOffsetY = shadow_offset_y; // Vertical offset for shadow
         parameter.size = font_size;  // Set the font size
         parameter.color = color;  // Font color
         BitmapFont font = generator.generateFont(parameter);  // Generate BitmapFont
@@ -123,10 +131,4 @@ public class MainMenuScreen extends ScreenAdapter {
 
     }
 
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height);
-    }
-
 }
-
