@@ -24,15 +24,16 @@ public class MainMenuScreen extends ScreenAdapter {
     private Viewport viewport;
     private Skin skin;
     private Table table;
-    private BitmapFont font;
+    private BitmapFont main_title_font;
+    private BitmapFont button_font;
     private Texture bg_img_texture;
     private Image bg_img;
 
     @Override
     public void show() {
         // custom fonts
-        BitmapFont main_title_font = font_set("fonts/Ubuntu-M.ttf", 64, Color.WHITE);
-        BitmapFont button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE);
+        main_title_font = font_set("fonts/OleoScriptSwashCaps-Regular.ttf", 48, Color.WHITE);
+        button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE);
 
         // viewport
         viewport = new ExtendViewport(960, 540);
@@ -40,11 +41,13 @@ public class MainMenuScreen extends ScreenAdapter {
 
         // skin
         skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
-        skin.add("default-font", font);
+        skin.add("default-font", button_font);
+        skin.add("font-label", main_title_font);
 
         // Update styles to use custom font
-        skin.get(Label.LabelStyle.class).font = font;  // Set default Label style font
-        skin.get(TextButton.TextButtonStyle.class).font = font;  // Set default TextButton style font
+        skin.get(Label.LabelStyle.class).font = main_title_font;  // Set default Label style font
+        skin.get("title", Label.LabelStyle.class).font = main_title_font;  // Set default Label style font
+        skin.get(TextButton.TextButtonStyle.class).font = button_font;  // Set default TextButton style font
 
         // background image
         bg_img_texture = new Texture("img/vecteezy_background-for-presentation-green-grass-with-flower-under_17308322-1.jpg");
@@ -59,9 +62,9 @@ public class MainMenuScreen extends ScreenAdapter {
 
         // main title
         Label main_title = new Label("Angry Birds", skin, "title");
-        main_title.setScale(4);
+        main_title.setAlignment(1);
         table.padTop(20);
-        table.add(main_title).center().padBottom(50);
+        table.add(main_title).center().padBottom(50).width(350).height(100);
         table.row();
 
         // buttons
@@ -95,9 +98,12 @@ public class MainMenuScreen extends ScreenAdapter {
     private BitmapFont font_set(String font_name, int font_size, Color color){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.shadowColor = Color.BLACK; // Shadow color
+        parameter.shadowOffsetX = 5; // Horizontal offset for shadow
+        parameter.shadowOffsetY = 5; // Vertical offset for shadow
         parameter.size = font_size;  // Set the font size
         parameter.color = color;  // Font color
-        font = generator.generateFont(parameter);  // Generate BitmapFont
+        BitmapFont font = generator.generateFont(parameter);  // Generate BitmapFont
         generator.dispose();  // Dispose of the generator when done
         return font;
     }
