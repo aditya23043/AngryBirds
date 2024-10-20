@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MainMenuScreen extends ScreenAdapter {
 
+    private final Game game;
     private Stage stage;
     private Viewport viewport;
     private Skin skin;
@@ -29,6 +30,10 @@ public class MainMenuScreen extends ScreenAdapter {
     private BitmapFont button_font;
     private Texture bg_img_texture;
     private Image bg_img;
+
+    public MainMenuScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -72,8 +77,9 @@ public class MainMenuScreen extends ScreenAdapter {
         button_add("Play").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
-            }            
+                game.setScreen(new LevelManagerScreen(game));
+                dispose();
+            }
         });
         button_add("Select Level");
         button_add("Help");
@@ -98,13 +104,13 @@ public class MainMenuScreen extends ScreenAdapter {
         table.row();
         return button;
     }
-    
+
     private BitmapFont font_set(String font_name, int font_size, Color color){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.shadowColor = Color.BLACK; // Shadow color
-        parameter.shadowOffsetX = 3; // Horizontal offset for shadow
-        parameter.shadowOffsetY = 3; // Vertical offset for shadow
+        parameter.shadowOffsetX = 5; // Horizontal offset for shadow
+        parameter.shadowOffsetY = 5; // Vertical offset for shadow
         parameter.size = font_size;  // Set the font size
         parameter.color = color;  // Font color
         BitmapFont font = generator.generateFont(parameter);  // Generate BitmapFont
@@ -114,7 +120,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        
+
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
