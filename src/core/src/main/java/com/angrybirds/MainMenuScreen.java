@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -68,7 +69,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         // main title
         Label main_title = new Label("Angry Birds", skin, "title");
-        main_title.setAlignment(1);
+        main_title.setAlignment(Align.center);
         table.padTop(20);
         table.add(main_title).center().padBottom(50).width(350).height(100);
         table.row();

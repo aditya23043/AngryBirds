@@ -7,12 +7,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -150,17 +153,27 @@ public class PlayScreen extends ScreenAdapter {
 
         Texture pig_2_tex = new Texture("img/pig1.png");
         Image pig_2 = new Image(pig_2_tex);
-        pig_2.setScale(1.5f);
+        pig_2.setScale(2f);
         pig_2.setSize(32, 32);
-        pig_2.setPosition(600, 274);
+        pig_2.setPosition(600-9, 274);
         stage.addActor(pig_2);
 
         Texture pig_3_tex = new Texture("img/pig1.png");
         Image pig_3 = new Image(pig_3_tex);
-        pig_3.setScale(2f);
+        pig_3.setScale(3f);
         pig_3.setSize(32, 32);
-        pig_3.setPosition(700-9, 274);
+        pig_3.setPosition(700-18, 274);
         stage.addActor(pig_3);
+
+        // next level (debug)
+        Button next_level = new Button(skin, "right");
+        next_level.setPosition(viewport.getWorldWidth()-20, 10);
+        next_level.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // ((Game)Gdx.app.getApplicationListener()).setScreen(new level_2
+            }
+        });
 
         Gdx.input.setInputProcessor(stage);
 
