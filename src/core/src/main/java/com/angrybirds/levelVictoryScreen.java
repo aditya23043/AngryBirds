@@ -71,7 +71,7 @@ public class levelVictoryScreen extends ScreenAdapter {
         replay_level_button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelOne());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener()));
             }
         });
 

@@ -114,11 +114,8 @@ public class LevelManagerScreen extends ScreenAdapter {
                 stack.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-<<<<<<< HEAD
                         game.setScreen(new PlayScreen(game));
-=======
-                        game.setScreen(new LevelOne());
->>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic)
+                        // game.setScreen(new LevelOne());
                     }
                 });
             }

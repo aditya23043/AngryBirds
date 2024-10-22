@@ -8,13 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-<<<<<<< HEAD
-<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-=======
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -22,25 +19,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
->>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
-=======
-import com.badlogic.gdx.scenes.scene2d.ui.*;
->>>>>>> 59b195e (messed up  the manual merge conflict so, backtracking)
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlayScreen extends ScreenAdapter {
 
-<<<<<<< HEAD
-<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
-    private final Game game;
-=======
     private AssetsManager assetsManager;
->>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
-=======
     private final Game game;
->>>>>>> 59b195e (messed up  the manual merge conflict so, backtracking)
     private Stage stage;
     private Viewport viewport;
     private Skin skin;
@@ -89,21 +76,10 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(table);
 
         // pause button
-<<<<<<< HEAD
-<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
-        Texture bg_pause = new Texture("img/pause.png");
-        Image pause_button = new Image(bg_pause);
-        pause_button.setPosition(0, viewport.getWorldHeight()-175);
-=======
         ImageButton pause_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/pause.png"))));
         pause_button.setPosition(10, viewport.getWorldHeight()-60);
         pause_button.setSize(50, 50);
->>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
-=======
-        Texture bg_pause = new Texture("img/pause.png");
-        Image pause_button = new Image(bg_pause);
-        pause_button.setPosition(0, viewport.getWorldHeight()-175);
->>>>>>> 59b195e (messed up  the manual merge conflict so, backtracking)
+
         stage.addActor(pause_button);
 
         pause_button.addListener(new ClickListener(){
@@ -215,9 +191,6 @@ public class PlayScreen extends ScreenAdapter {
         pig_3.setPosition(700-9, 274);
         stage.addActor(pig_3);
 
-<<<<<<< HEAD
-<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
-=======
         // next level (debug)
         Button next_level = new Button(skin, "right");
         next_level.setPosition(viewport.getWorldWidth()-40, 10);
@@ -229,9 +202,6 @@ public class PlayScreen extends ScreenAdapter {
         });
         stage.addActor(next_level);
 
->>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
-=======
->>>>>>> 59b195e (messed up  the manual merge conflict so, backtracking)
         Gdx.input.setInputProcessor(stage);
 
     }
@@ -246,11 +216,6 @@ public class PlayScreen extends ScreenAdapter {
         table.row();
         return button;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
-=======
->>>>>>> 59b195e (messed up  the manual merge conflict so, backtracking)
-
     private BitmapFont font_set(String font_name, int font_size, Color color, Color shadow_color, int shadow_offset_x, int shadow_offset_y){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -264,12 +229,6 @@ public class PlayScreen extends ScreenAdapter {
         return font;
     }
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
-=======
->>>>>>> 59b195e (messed up  the manual merge conflict so, backtracking)
     @Override
     public void render(float delta) {
 
