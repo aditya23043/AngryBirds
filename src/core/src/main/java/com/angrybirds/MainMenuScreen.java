@@ -110,8 +110,8 @@ public class MainMenuScreen extends ScreenAdapter {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.shadowColor = Color.BLACK; // Shadow color
-        parameter.shadowOffsetX = 5; // Horizontal offset for shadow
-        parameter.shadowOffsetY = 5; // Vertical offset for shadow
+        parameter.shadowOffsetX = 3; // Horizontal offset for shadow
+        parameter.shadowOffsetY = 3; // Vertical offset for shadow
         parameter.size = font_size;  // Set the font size
         parameter.color = color;  // Font color
         BitmapFont font = generator.generateFont(parameter);  // Generate BitmapFont

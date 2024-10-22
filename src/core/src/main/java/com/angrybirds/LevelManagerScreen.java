@@ -10,7 +10,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -54,7 +59,7 @@ public class LevelManagerScreen extends ScreenAdapter {
         levelbg_img.setPosition(0,0);
         levelbg_img.setSize(960,540);
         stage.addActor(levelbg_img);
-        back_texture=new Texture("img/Back.png");
+        back_texture=new Texture("img/back.png");
         back=new Image(back_texture);
         back.setPosition(3.5f,480);
         back.setSize(50,50);
@@ -109,7 +114,11 @@ public class LevelManagerScreen extends ScreenAdapter {
                 stack.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+<<<<<<< HEAD
                         game.setScreen(new PlayScreen(game));
+=======
+                        game.setScreen(new LevelOne());
+>>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic)
                     }
                 });
             }

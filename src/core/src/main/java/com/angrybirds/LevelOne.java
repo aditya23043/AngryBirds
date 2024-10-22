@@ -4,21 +4,35 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+=======
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+>>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class PlayScreen extends ScreenAdapter {
+public class LevelOne extends ScreenAdapter {
 
+<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
     private final Game game;
+=======
+    private AssetsManager assetsManager;
+>>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
     private Stage stage;
     private Viewport viewport;
     private Skin skin;
@@ -40,36 +54,33 @@ public class PlayScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
-        level_font = font_set("fonts/Ubuntu-M.ttf", 12, Color.WHITE, Color.WHITE, 0, 0);
-        button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE, Color.BLACK, 3, 3);
-        credit_font = font_set("fonts/Ubuntu-M.ttf", 8, Color.GRAY, Color.BLACK, 1, 1);
-
         skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
-        skin.add("default-font", button_font);
-        skin.add("font-label", level_font);
 
-        skin.get(Label.LabelStyle.class).font = level_font;
-        skin.get("subtitle", Label.LabelStyle.class).font = level_font;
-        skin.get("default", Label.LabelStyle.class).font = credit_font;
-        skin.get(TextButton.TextButtonStyle.class).font = button_font;
-
-        // background image
-        bg_img_texture = new Texture("img/level1.jpg");
-        bg_img = new Image(bg_img_texture);
-        bg_img.setSize(960, 540);
+        assetsManager = new AssetsManager();
+        assetsManager.load_font();
+        assetsManager.config(skin);
+        assetsManager.backgroundImage("img/level1.jpg");
+        assetsManager.backgroundImage.setSize(960, 540);
 
         // table
         table = new Table();
         table.setFillParent(true);
-        stage.addActor(bg_img);
+        stage.addActor(assetsManager.backgroundImage);
         stage.addActor(table);
 
         // pause button
+<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
         Texture bg_pause = new Texture("img/pause.png");
         Image pause_button = new Image(bg_pause);
         pause_button.setPosition(0, viewport.getWorldHeight()-175);
+=======
+        ImageButton pause_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/pause.png"))));
+        pause_button.setPosition(10, viewport.getWorldHeight()-60);
+        pause_button.setSize(50, 50);
+>>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
         stage.addActor(pause_button);
 
         pause_button.addListener(new ClickListener(){
@@ -81,9 +92,9 @@ public class PlayScreen extends ScreenAdapter {
 
 
         // level header
-        Label level_title = new Label("Level 1", skin, "title");
-        level_title.setAlignment(1);
-        level_title.setPosition(viewport.getWorldWidth()/2-60, viewport.getWorldHeight()-70);
+        Image level_title = assetsManager.loadImage("img/level_one_text.png");
+        level_title.setPosition(viewport.getWorldWidth()/2-60, viewport.getWorldHeight()-50);
+        level_title.setScale(0.5f);
         stage.addActor(level_title);
 
         // credits
@@ -106,20 +117,20 @@ public class PlayScreen extends ScreenAdapter {
         // catapult
         Texture catapult_tex = new Texture("img/catapult.png");
         Image catapult = new Image(catapult_tex);
-        catapult.setScale(0.25f);;
+        catapult.setScale(0.2f);;
         catapult.setPosition(100, 174);
         stage.addActor(catapult);
 
         // birds
-        Texture red_bird_tex = new Texture("img/red.png");
+        Texture red_bird_tex = new Texture("img/red1.png");
         Image red_bird = new Image(red_bird_tex);
-        red_bird.setScale(1.2f);
+        red_bird.setSize(40, 40);
         red_bird.setPosition(60, 170);
         stage.addActor(red_bird);
 
-        Texture red_bird_2_tex = new Texture("img/red.png");
+        Texture red_bird_2_tex = new Texture("img/red1.png");
         Image red_bird_2 = new Image(red_bird_2_tex);
-        red_bird_2.setScale(1.2f);
+        red_bird_2.setSize(40, 40);
         red_bird_2.setPosition(20, 170);
         stage.addActor(red_bird_2);
 
@@ -160,27 +171,41 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(glass_2);
 
         // pigs
-        Texture pig_1_tex = new Texture("img/pig1.png");
+        Texture pig_1_tex = new Texture("img/pig.png");
         Image pig_1 = new Image(pig_1_tex);
         pig_1.setScale(1f);
         pig_1.setSize(32, 32);
         pig_1.setPosition(500+9, 274);
         stage.addActor(pig_1);
 
-        Texture pig_2_tex = new Texture("img/pig1.png");
+        Texture pig_2_tex = new Texture("img/pig.png");
         Image pig_2 = new Image(pig_2_tex);
         pig_2.setScale(1.5f);
         pig_2.setSize(32, 32);
         pig_2.setPosition(600, 274);
         stage.addActor(pig_2);
 
-        Texture pig_3_tex = new Texture("img/pig1.png");
+        Texture pig_3_tex = new Texture("img/pig.png");
         Image pig_3 = new Image(pig_3_tex);
         pig_3.setScale(2f);
         pig_3.setSize(32, 32);
         pig_3.setPosition(700-9, 274);
         stage.addActor(pig_3);
 
+<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
+=======
+        // next level (debug)
+        Button next_level = new Button(skin, "right");
+        next_level.setPosition(viewport.getWorldWidth()-40, 10);
+        next_level.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(1));
+            }
+        });
+        stage.addActor(next_level);
+
+>>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
         Gdx.input.setInputProcessor(stage);
 
     }
@@ -195,6 +220,7 @@ public class PlayScreen extends ScreenAdapter {
         table.row();
         return button;
     }
+<<<<<<< HEAD:src/core/src/main/java/com/angrybirds/PlayScreen.java
 
     private BitmapFont font_set(String font_name, int font_size, Color color, Color shadow_color, int shadow_offset_x, int shadow_offset_y){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
@@ -209,6 +235,9 @@ public class PlayScreen extends ScreenAdapter {
         return font;
     }
 
+=======
+    
+>>>>>>> f85c7c6 (victory screen done and some assets changed to match with the angry birds aesthetic):src/core/src/main/java/com/angrybirds/LevelOne.java
     @Override
     public void render(float delta) {
 
