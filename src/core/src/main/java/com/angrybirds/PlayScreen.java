@@ -32,9 +32,6 @@ public class PlayScreen extends ScreenAdapter {
     private Viewport viewport;
     private Skin skin;
     private Table table;
-    private BitmapFont level_font;
-    private BitmapFont button_font;
-    private BitmapFont credit_font;
     private Texture bg_img_texture;
     private Image bg_img;
     private PauseScreen pauseScreen;
@@ -51,28 +48,17 @@ public class PlayScreen extends ScreenAdapter {
     public void show() {
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
-        level_font = font_set("fonts/Ubuntu-M.ttf", 12, Color.WHITE, Color.WHITE, 0, 0);
-        button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE, Color.BLACK, 3, 3);
-        credit_font = font_set("fonts/Ubuntu-M.ttf", 8, Color.GRAY, Color.BLACK, 1, 1);
 
-        skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
-        skin.add("default-font", button_font);
-        skin.add("font-label", level_font);
-
-        skin.get(Label.LabelStyle.class).font = level_font;
-        skin.get("subtitle", Label.LabelStyle.class).font = level_font;
-        skin.get("default", Label.LabelStyle.class).font = credit_font;
-        skin.get(TextButton.TextButtonStyle.class).font = button_font;
-
-        // background image
-        bg_img_texture = new Texture("img/level1.jpg");
-        bg_img = new Image(bg_img_texture);
-        bg_img.setSize(960, 540);
+        assetsManager = new AssetsManager();
+        assetsManager.load_font();
+        assetsManager.config(skin);
+        assetsManager.backgroundImage("img/level1.jpg");
+        assetsManager.backgroundImage.setSize(960, 540);
+        stage.addActor(assetsManager.backgroundImage);
 
         // table
         table = new Table();
         table.setFillParent(true);
-        stage.addActor(bg_img);
         stage.addActor(table);
 
         // pause button
@@ -91,9 +77,9 @@ public class PlayScreen extends ScreenAdapter {
 
 
         // level header
-        Label level_title = new Label("Level 1", skin, "title");
-        level_title.setAlignment(1);
-        level_title.setPosition(viewport.getWorldWidth()/2-60, viewport.getWorldHeight()-70);
+        Image level_title = assetsManager.loadImage("img/level_one_text.png");
+        level_title.setScale(0.5f);
+        level_title.setPosition(viewport.getWorldWidth()/2-70, viewport.getWorldHeight()-60);
         stage.addActor(level_title);
 
         // credits
@@ -121,15 +107,15 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(catapult);
 
         // birds
-        Texture red_bird_tex = new Texture("img/red.png");
+        Texture red_bird_tex = new Texture("img/red1.png");
         Image red_bird = new Image(red_bird_tex);
-        red_bird.setScale(1.2f);
+        red_bird.setScale(0.18f);
         red_bird.setPosition(60, 170);
         stage.addActor(red_bird);
 
-        Texture red_bird_2_tex = new Texture("img/red.png");
+        Texture red_bird_2_tex = new Texture("img/red1.png");
         Image red_bird_2 = new Image(red_bird_2_tex);
-        red_bird_2.setScale(1.2f);
+        red_bird_2.setScale(0.18f);
         red_bird_2.setPosition(20, 170);
         stage.addActor(red_bird_2);
 
@@ -170,21 +156,21 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(glass_2);
 
         // pigs
-        Texture pig_1_tex = new Texture("img/pig1.png");
+        Texture pig_1_tex = new Texture("img/pig.png");
         Image pig_1 = new Image(pig_1_tex);
         pig_1.setScale(1f);
         pig_1.setSize(32, 32);
         pig_1.setPosition(500+9, 274);
         stage.addActor(pig_1);
 
-        Texture pig_2_tex = new Texture("img/pig1.png");
+        Texture pig_2_tex = new Texture("img/pig.png");
         Image pig_2 = new Image(pig_2_tex);
         pig_2.setScale(1.5f);
         pig_2.setSize(32, 32);
         pig_2.setPosition(600, 274);
         stage.addActor(pig_2);
 
-        Texture pig_3_tex = new Texture("img/pig1.png");
+        Texture pig_3_tex = new Texture("img/pig.png");
         Image pig_3 = new Image(pig_3_tex);
         pig_3.setScale(2f);
         pig_3.setSize(32, 32);
