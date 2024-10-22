@@ -1,6 +1,8 @@
 package com.angrybirds;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,18 +11,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlayScreen extends ScreenAdapter {
 
+    private final Game game;
     private Stage stage;
     private Viewport viewport;
     private Skin skin;
@@ -30,6 +28,15 @@ public class PlayScreen extends ScreenAdapter {
     private BitmapFont credit_font;
     private Texture bg_img_texture;
     private Image bg_img;
+    private PauseScreen pauseScreen;
+
+    public PlayScreen(Game game) {
+        this.game=game;
+        this.stage=new Stage(new ExtendViewport(960, 540));
+        this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
+        this.pauseScreen=new PauseScreen(game, this, skin);
+    }
+
 
     @Override
     public void show() {
@@ -60,9 +67,18 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(table);
 
         // pause button
-        TextButton pause_button = new TextButton("Pause", skin, "default");
-        pause_button.setPosition(10, viewport.getWorldHeight()-40);
+        Texture bg_pause = new Texture("img/pause.png");
+        Image pause_button = new Image(bg_pause);
+        pause_button.setPosition(0, viewport.getWorldHeight()-175);
         stage.addActor(pause_button);
+
+        pause_button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                pauseScreen.togglePause();
+                game.setScreen(pauseScreen);
+            }
+        });
+
 
         // level header
         Label level_title = new Label("Level 1", skin, "title");
@@ -153,27 +169,17 @@ public class PlayScreen extends ScreenAdapter {
 
         Texture pig_2_tex = new Texture("img/pig1.png");
         Image pig_2 = new Image(pig_2_tex);
-        pig_2.setScale(2f);
+        pig_2.setScale(1.5f);
         pig_2.setSize(32, 32);
-        pig_2.setPosition(600-9, 274);
+        pig_2.setPosition(600, 274);
         stage.addActor(pig_2);
 
         Texture pig_3_tex = new Texture("img/pig1.png");
         Image pig_3 = new Image(pig_3_tex);
-        pig_3.setScale(3f);
+        pig_3.setScale(2f);
         pig_3.setSize(32, 32);
-        pig_3.setPosition(700-18, 274);
+        pig_3.setPosition(700-9, 274);
         stage.addActor(pig_3);
-
-        // next level (debug)
-        Button next_level = new Button(skin, "right");
-        next_level.setPosition(viewport.getWorldWidth()-20, 10);
-        next_level.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // ((Game)Gdx.app.getApplicationListener()).setScreen(new level_2
-            }
-        });
 
         Gdx.input.setInputProcessor(stage);
 
@@ -189,7 +195,7 @@ public class PlayScreen extends ScreenAdapter {
         table.row();
         return button;
     }
-    
+
     private BitmapFont font_set(String font_name, int font_size, Color color, Color shadow_color, int shadow_offset_x, int shadow_offset_y){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -205,13 +211,17 @@ public class PlayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        
+
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act();
         stage.draw();
 
+    }
+
+    public InputProcessor getStage() {
+        return stage;
     }
 
 }
