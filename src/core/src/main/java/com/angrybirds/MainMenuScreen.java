@@ -7,16 +7,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -57,7 +59,7 @@ public class MainMenuScreen extends ScreenAdapter {
         skin.get(TextButton.TextButtonStyle.class).font = button_font;  // Set default TextButton style font
 
         // background image
-        bg_img_texture = new Texture("img/vecteezy_background-for-presentation-green-grass-with-flower-under_17308322-1.jpg");
+        bg_img_texture = new Texture("img/clouds_2.jpg");
         bg_img = new Image(bg_img_texture);
         bg_img.setSize(960, 540);
 
@@ -66,25 +68,19 @@ public class MainMenuScreen extends ScreenAdapter {
         table.setFillParent(true);
         stage.addActor(bg_img);
         stage.addActor(table);
-
-        // main title
-        Label main_title = new Label("Angry Birds", skin, "title");
-        main_title.setAlignment(Align.center);
-        table.padTop(20);
-        table.add(main_title).center().padBottom(50).width(350).height(100);
-        table.row();
+        table.padTop(100);
 
         // buttons
-        button_add("Play").addListener(new ClickListener(){
+        button_add("img/main_menu_play.png").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LevelManagerScreen(game));
                 dispose();
             }
         });
-        button_add("Select Level");
-        button_add("Help");
-        button_add("Exit").addListener(new ClickListener(){
+        button_add("img/main_menu_select_level.png");
+        button_add("img/main_menu_help.png");
+        button_add("img/main_menu_exit.png").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
@@ -95,12 +91,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
     }
 
-    private TextButton button_add(String button_text) {
-        TextButton button = new TextButton(button_text, skin);
-        button.padTop(10);
-        button.padBottom(10);
-        button.padLeft(20);
-        button.padRight(20);
+    private ImageButton button_add(String img_path) {
+        ImageButton button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(img_path))));
         table.add(button).fillX().padBottom(10);
         table.row();
         return button;
