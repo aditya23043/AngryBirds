@@ -5,20 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class PauseScreen implements Screen {
     private final Window pauseWindow;
-    private final TextButton resumeButton;
-    private final TextButton restartButton;
-    private final TextButton exitButton;
     private final PlayScreen playScreen;
     private final Game game;
     private final Stage stage;
@@ -38,55 +38,58 @@ public class PauseScreen implements Screen {
             (Gdx.graphics.getHeight() - pauseWindow.getHeight()) / 2
         );
         pauseWindow.setVisible(false); // Initially hidden
+        
+        AssetsManager assetsManager = new AssetsManager();
+
         // Create buttons
-        resumeButton = new TextButton("Resume", skin, "default");
-        restartButton = new TextButton("Restart", skin, "default");
-        exitButton = new TextButton("Exit", skin, "default");
+        Image pause_menu_bg = assetsManager.loadImage("img/pause_bg.png");
+        pause_menu_bg.setSize(300, 320);
+        pause_menu_bg.setPosition(Gdx.graphics.getWidth()/2-150, Gdx.graphics.getHeight()/2-150-20);
+
+        Image translucent_bg = assetsManager.loadImage("img/translucent.png");
+
+        ImageButton resume_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_resume_button.png"))));
+        resume_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10);
+
+        ImageButton restart_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_restart_button.png"))));
+        restart_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-87-10);
+
+        ImageButton exit_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_exit_button.png"))));
+        exit_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-87-10-87-10);
 
         // Set up button listeners
-        resumeButton.addListener(new ChangeListener() {
+        resume_button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 togglePause(); // Resume the game
             }
         });
 
-        restartButton.addListener(new ChangeListener() {
+        restart_button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new PlayScreen(game)); // Restart the game
             }
         });
 
-        exitButton.addListener(new ChangeListener() {
+        exit_button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit(); // Exit the game
             }
         });
 
-        // Create layout for buttons
-        Table buttonTable = new Table();
-        buttonTable.add(resumeButton).uniform().pad(10);
-        buttonTable.row();
-        buttonTable.add(restartButton).uniform().pad(10);
-        buttonTable.row();
-        buttonTable.add(exitButton).uniform().pad(10);
-        buttonTable.row();
-
-        // Add the button table to the window
-        pauseWindow.add(buttonTable).center();
-        pauseWindow.pack();
-
-        // Add the window to the stage
-        stage.addActor(pauseWindow);
-        //isPaused=true;
+        stage.addActor(translucent_bg);
+        stage.addActor(pause_menu_bg);
+        stage.addActor(resume_button);
+        stage.addActor(restart_button);
+        stage.addActor(exit_button);
     }
 
     public void togglePause() {
-        isPaused = !isPaused; // Toggle pause state
-        pauseWindow.setVisible(isPaused); // Show or hide pause window
-        Gdx.input.setInputProcessor(isPaused ? stage : playScreen.getStage()); // Set input processor
+        this.isPaused = !this.isPaused; // Toggle pause state
+        pauseWindow.setVisible(this.isPaused); // Show or hide pause window
+        Gdx.input.setInputProcessor(this.isPaused ? stage : playScreen.getStage()); // Set input processor
     }
 
     @Override
