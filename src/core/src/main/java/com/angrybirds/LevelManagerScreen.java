@@ -54,7 +54,7 @@ public class LevelManagerScreen extends ScreenAdapter {
         preferences= Gdx.app.getPreferences("Level progress");
         skin.get(Label.LabelStyle.class).font = main_title_font;
 
-        levelbg_texture=new Texture("img/Levels.png");
+        levelbg_texture=new Texture("img/redbgwo.jpg");
         levelbg_img=new Image(levelbg_texture);
         levelbg_img.setPosition(0,0);
         levelbg_img.setSize(960,540);
@@ -91,10 +91,12 @@ public class LevelManagerScreen extends ScreenAdapter {
 
         for(int i=0; i<num_levels; i++){
             boolean is_upgraded=preferences.getBoolean("Level"+(i+1), i==0);
-            Texture textr= new Texture(is_upgraded ? "img/Levelnum.png" : "img/lock.png");
+            Texture textr= new Texture(is_upgraded ? "img/level_selector_template.png" : "img/level_selector_lock.png");
             Image levelbutton=new Image(textr);
+
+            // level text font
             TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-            textButtonStyle.font= font_set("fonts/angrybirds-regular.ttf", 38, Color.BLACK, false);
+            textButtonStyle.font= font_set("fonts/angrybirds-regular.ttf", 45, Color.BLACK, false);
             textButtonStyle.downFontColor = Color.RED;
 
             TextButton level_num = new TextButton(String.valueOf(i + 1), textButtonStyle);
@@ -107,8 +109,8 @@ public class LevelManagerScreen extends ScreenAdapter {
                 stack.add(level_num);
 
                 // Optional: Center the label on the button
-                stack.setSize(80,80);
-                table.add(stack).size(110,110).pad(20);
+                // stack.setSize(80,80);
+                table.add(stack).size(150,150).pad(20);
 
             if(is_upgraded){
                 stack.addListener(new ClickListener(){
@@ -121,7 +123,7 @@ public class LevelManagerScreen extends ScreenAdapter {
             }
             }
             else{
-                table.add(levelbutton).size(150,150).pad(10);
+                table.add(levelbutton).size(150,150).pad(20);
             }
         }
     }

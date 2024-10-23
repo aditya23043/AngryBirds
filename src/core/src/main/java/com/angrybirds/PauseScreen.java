@@ -75,7 +75,7 @@ public class PauseScreen implements Screen {
         exit_button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit(); // Exit the game
+                game.setScreen(new MainMenuScreen(game)); // Restart the game
             }
         });
 

@@ -59,7 +59,7 @@ public class MainMenuScreen extends ScreenAdapter {
         skin.get(TextButton.TextButtonStyle.class).font = button_font;  // Set default TextButton style font
 
         // background image
-        bg_img_texture = new Texture("img/clouds_2.jpg");
+        bg_img_texture = new Texture("img/redbg.jpg");
         bg_img = new Image(bg_img_texture);
         bg_img.setSize(960, 540);
 
