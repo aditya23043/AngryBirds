@@ -91,12 +91,12 @@ public class LevelManagerScreen extends ScreenAdapter {
 
         for(int i=0; i<num_levels; i++){
             boolean is_upgraded=preferences.getBoolean("Level"+(i+1), i==0);
-            Texture textr= new Texture(is_upgraded ? "img/level_selector_template.png" : "img/level_selector_lock.png");
+            Texture textr= new Texture(is_upgraded ? "img/level_selector_"+String.valueOf(i+1)+".png" : "img/level_selector_lock.png");
             Image levelbutton=new Image(textr);
 
             // level text font
             TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-            textButtonStyle.font= font_set("fonts/angrybirds-regular.ttf", 45, Color.BLACK, false);
+            textButtonStyle.font= font_set("fonts/angrybirds-regular.ttf", 60, Color.WHITE, true);
             textButtonStyle.downFontColor = Color.RED;
 
             TextButton level_num = new TextButton(String.valueOf(i + 1), textButtonStyle);
@@ -106,7 +106,7 @@ public class LevelManagerScreen extends ScreenAdapter {
             if(is_upgraded){
                 Stack stack = new Stack();
                 stack.add(levelbutton);
-                stack.add(level_num);
+                // stack.add(level_num);
 
                 // Optional: Center the label on the button
                 // stack.setSize(80,80);

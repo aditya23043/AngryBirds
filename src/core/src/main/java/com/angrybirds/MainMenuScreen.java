@@ -79,7 +79,12 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
         button_add("img/main_menu_select_level.png");
-        button_add("img/main_menu_help.png");
+        button_add("img/main_menu_help.png").addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
         button_add("img/main_menu_exit.png").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
