@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -60,7 +57,7 @@ public class levelVictoryScreen extends ScreenAdapter {
 
         stage.addActor(next_level_button);
         next_level_button.addListener(new ClickListener(){
-              
+
         });
 
         ImageButton replay_level_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/replay_level.png"))));
@@ -87,13 +84,24 @@ public class levelVictoryScreen extends ScreenAdapter {
             }
         });
 
+        Button next_level = new Button(skin, "right");
+        next_level.setPosition(viewport.getWorldWidth()-40, 10);
+        next_level.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PlayScreen playScreen = new PlayScreen((Game)Gdx.app.getApplicationListener());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelFailed((Game)Gdx.app.getApplicationListener(), skin, playScreen));
+            }
+        });
+        stage.addActor(next_level);
+
         Gdx.input.setInputProcessor(stage);
-        
+
     }
 
     @Override
     public void render(float delta) {
-        
+
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
