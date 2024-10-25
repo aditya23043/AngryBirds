@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -76,13 +78,23 @@ public class MainMenuScreen extends ScreenAdapter {
         table.padTop(100);
 
         // buttons
-        button_add("img/main_menu_play.png").addListener(new ClickListener(){
+        ImageButton play_button = button_add("img/main_menu_play.png");
+        play_button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LevelManagerScreen(game));
                 dispose();
             }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                play_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                play_button.addAction(Actions.alpha(1f));
+            }
         });
+
         button_add("img/main_menu_select_level.png").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -91,18 +103,36 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
-        button_add("img/main_menu_help.png").addListener(new ClickListener(){
+        ImageButton help_button = button_add("img/main_menu_help.png");
+        help_button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new HelpMenuScreen(game));
                 dispose();
             }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                help_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                help_button.addAction(Actions.alpha(1f));
+            }
         });
 
-        button_add("img/main_menu_exit.png").addListener(new ClickListener(){
+        ImageButton exit_button = button_add("img/main_menu_exit.png");
+        exit_button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
+            }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit_button.addAction(Actions.alpha(1f));
             }
         });
 
@@ -120,6 +150,18 @@ public class MainMenuScreen extends ScreenAdapter {
                 volume.setDrawable(MuteStateManager.isMuted() ? volumedown : volumeup);
             }
         });
+
+        AssetsManager assetsManager = new AssetsManager();
+        ImageButton github_button = new ImageButton(new TextureRegionDrawable(new Texture("img/github.png")));
+        github_button.setPosition(10, 10);
+        github_button.setSize(64, 64);
+        github_button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.net.openURI("https://github.com/aditya23043/AngryBirds/");
+            }
+        });
+        stage.addActor(github_button);
 
         Gdx.input.setInputProcessor(stage);
 
