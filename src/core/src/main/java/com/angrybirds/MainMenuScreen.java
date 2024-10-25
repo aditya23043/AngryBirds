@@ -64,7 +64,7 @@ public class MainMenuScreen extends ScreenAdapter {
         skin.get(TextButton.TextButtonStyle.class).font = button_font;  // Set default TextButton style font
 
         // background image
-        bg_img_texture = new Texture("img/clouds_2.jpg");
+        bg_img_texture = new Texture("img/redbg.jpg");
         bg_img = new Image(bg_img_texture);
         bg_img.setSize(960, 540);
 
@@ -91,7 +91,14 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
-        button_add("img/main_menu_help.png");
+        button_add("img/main_menu_help.png").addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new HelpMenuScreen(game));
+                dispose();
+            }
+        });
+
         button_add("img/main_menu_exit.png").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
