@@ -61,7 +61,7 @@ public class LevelManagerScreen extends ScreenAdapter {
         stage.addActor(levelbg_img);
         back_texture=new Texture("img/back.png");
         back=new Image(back_texture);
-        back.setPosition(3.5f,480);
+        back.setPosition(10,480);
         back.setSize(50,50);
         stage.addActor(back);
         back.addListener(new ClickListener(){
