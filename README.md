@@ -1,14 +1,18 @@
 # AngryBirds
 - CSE201 Game development project at IIITD using Java
 
-## How to install? 
+### Dependencies
+
 - Ensure you have and `java` installed on your system
-- Note: you do not necessarily need to have `gradle` since there already exists a gradle wrapper binary for both Windows and Linux based systems included with the project `(src/gradlew or src/gradlew.bat)`
+> Note: you do not necessarily need to have `gradle` since there already exists a gradle wrapper binary for both Windows and Linux based systems included with the project `(src/gradlew or src/gradlew.bat)`
 - For Arch Linux,
 ```
 sudo pacman -S jdk-openjdk
 ```
-- Then clone the git repository from github
+
+## How to install? 
+
+- Clone the git repository from github
 ```
 git clone https://github.com/aditya23043/AngryBirds
 ```
