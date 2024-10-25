@@ -33,9 +33,14 @@ public class MainMenuScreen extends ScreenAdapter {
     private BitmapFont button_font;
     private Texture bg_img_texture;
     private Image bg_img;
+    private AssetsManager assetsManager;
+    private Image volume;
+
 
     public MainMenuScreen(Game game) {
         this.game = game;
+        assetsManager= new AssetsManager();
+
     }
 
     @Override
@@ -59,7 +64,7 @@ public class MainMenuScreen extends ScreenAdapter {
         skin.get(TextButton.TextButtonStyle.class).font = button_font;  // Set default TextButton style font
 
         // background image
-        bg_img_texture = new Texture("img/redbg.jpg");
+        bg_img_texture = new Texture("img/clouds_2.jpg");
         bg_img = new Image(bg_img_texture);
         bg_img.setSize(960, 540);
 
@@ -78,17 +83,44 @@ public class MainMenuScreen extends ScreenAdapter {
                 dispose();
             }
         });
-        button_add("img/main_menu_select_level.png");
-        button_add("img/main_menu_help.png").addListener(new ClickListener(){
+        button_add("img/main_menu_select_level.png").addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LoadGame(skin));
+                dispose();
+            }
+        });
+
+        button_add("img/main_menu_help.png");
+        button_add("img/main_menu_exit.png").addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
-        button_add("img/main_menu_exit.png").addListener(new ClickListener(){
+
+        volume=assetsManager.loadImage("img/volume.png");
+        Image volumedown= assetsManager.loadImage("img/volume_mute.png");
+        Image volumeup=assetsManager.loadImage("img/volume.png");
+        if(MuteStateManager.isMuted()){
+            volume=volumedown;
+        }
+        else if(!MuteStateManager.isMuted()){
+            volume=volumeup;
+        }
+        volume.setPosition(3.5f,480);
+        volume.setSize(50,50);
+        stage.addActor(volume);
+        volume.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+            public void clicked(InputEvent event, float x, float y){
+                if(MuteStateManager.isMuted()){
+                    volume.setDrawable(volumeup.getDrawable());
+                }
+                else{
+                    volume.setDrawable(volumedown.getDrawable());
+                }
+                MuteStateManager.setMuted(!MuteStateManager.isMuted());
             }
         });
 
