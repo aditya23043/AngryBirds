@@ -106,28 +106,18 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         });
 
-        volume=assetsManager.loadImage("img/volume.png");
-        Image volumedown= assetsManager.loadImage("img/volume_mute.png");
-        Image volumeup=assetsManager.loadImage("img/volume.png");
-        if(MuteStateManager.isMuted()){
-            volume=volumedown;
-        }
-        else if(!MuteStateManager.isMuted()){
-            volume=volumeup;
-        }
+        TextureRegionDrawable volumedown = new TextureRegionDrawable(new TextureRegion(new Texture("img/volume_mute.png")));
+        TextureRegionDrawable volumeup = new TextureRegionDrawable(new TextureRegion(new Texture("img/volume.png")));
+        volume = new Image(MuteStateManager.isMuted() ? volumedown : volumeup);
+
         volume.setPosition(3.5f,480);
         volume.setSize(50,50);
         stage.addActor(volume);
         volume.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(MuteStateManager.isMuted()){
-                    volume.setDrawable(volumeup.getDrawable());
-                }
-                else{
-                    volume.setDrawable(volumedown.getDrawable());
-                }
                 MuteStateManager.setMuted(!MuteStateManager.isMuted());
+                volume.setDrawable(MuteStateManager.isMuted() ? volumedown : volumeup);
             }
         });
 
