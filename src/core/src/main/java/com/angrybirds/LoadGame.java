@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -42,6 +43,7 @@ public class LoadGame extends ScreenAdapter {
 
         input_font= font_set("fonts/SF-Pro-Text-Medium.otf", 24, Color.WHITE, Color.BLACK, 0,0);
         skin.get(TextField.TextFieldStyle.class).font = input_font;
+        skin.get(TextButton.TextButtonStyle.class).font = input_font;
 
         assetsManager = new AssetsManager();
         assetsManager.backgroundImage("img/bg_load23.JPG");
@@ -86,41 +88,80 @@ public class LoadGame extends ScreenAdapter {
 
         table.add(stack).center().padBottom(50);
 
-        skin.get(Window.WindowStyle.class).titleFont = dialog_font;
-        skin.get(List.ListStyle.class).font = input_font;
-
         stack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Dialog savedGamesDialog = new Dialog("Saved Games", skin) {
-                    @Override
-                    protected void result(Object object) {
-                    }
-                };
-
-                String[] savedGames = {"Game 1", "Game 2", "Game 3", "Game 4", "Game 5", "Game 6", "Game 7", "Game 8", "Game 9", "Game 10"};
-                List<String> gameList = new List<>(skin);
-                gameList.setItems(savedGames);
-
-                ScrollPane scrollPane = new ScrollPane(gameList, skin);
-                scrollPane.setScrollingDisabled(false, false);  // Enable both horizontal and vertical scrolling
-                scrollPane.setFlickScroll(true);  // Allow flicking for smoother scrolling
-                scrollPane.setForceScroll(false, true);  // Ensure vertical scroll is always allowed
-                scrollPane.setFadeScrollBars(false);  // Keep scroll bars visible
-
-                // Add ScrollPane to the dialog's content table
-                savedGamesDialog.getContentTable().add(scrollPane).width(400).height(250).pad(10);
-
-                savedGamesDialog.button("Load", true);
-                savedGamesDialog.button("Cancel", false);
-                savedGamesDialog.show(stage);
+                openSavedGamesWindow();
             }
         });
-
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
+
+    private void openSavedGamesWindow() {
+        Image translucent_bg = assetsManager.loadImage("img/translucent.png");
+        stage.addActor(translucent_bg);
+        Window.WindowStyle windowStyle = new Window.WindowStyle();
+        windowStyle.titleFont = main_title_font;
+
+        final Window savedGamesWindow = new Window("", windowStyle);
+        savedGamesWindow.setSize(400, 400); // Set window size
+        savedGamesWindow.setPosition(Gdx.graphics.getWidth()/2-150-40, Gdx.graphics.getHeight()/2-150-50);
+        savedGamesWindow.center();
+
+        // Load background image
+        Image backgroundImage = assetsManager.loadImage("img/pause_bg.png");
+        backgroundImage.setSize(savedGamesWindow.getWidth(), savedGamesWindow.getHeight());
+        savedGamesWindow.addActor(backgroundImage);
+
+        savedGamesWindow.add(new Label("Saved Games", skin)).padTop(15);
+        savedGamesWindow.row();
+
+        Table contentTable = new Table();
+        contentTable.top();
+        savedGamesWindow.addActor(contentTable);
+
+
+        String[] savedGames = {"Game 1", "Game 2", "Game 3", "Game 4", "Game 5", "Game 6", "Game 7", "Game 8", "Game 9", "Game 10"};
+
+        for (String game : savedGames) {
+            TextButton gameButton = new TextButton(game, skin);
+            gameButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("Loading " + game); // Simulate loading game
+                    savedGamesWindow.remove(); // Close the window after selection
+                }
+            });
+            contentTable.top();
+            contentTable.add(gameButton).width(250).padBottom(1.5f);
+            contentTable.row();
+        }
+        ScrollPane scrollPane = new ScrollPane(contentTable, skin);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.layout();
+        scrollPane.setScrollY(0);
+
+        savedGamesWindow.add(scrollPane).expand().fill().height(250);
+        savedGamesWindow.row();
+
+        TextButton closeButton = new TextButton("Close", skin);
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                savedGamesWindow.remove();
+                translucent_bg.remove();
+            }
+        });
+
+        savedGamesWindow.add(closeButton).padTop(10).width(100);
+
+        stage.addActor(savedGamesWindow); // Add the window to the stage
+    }
+
+
 
     private BitmapFont font_set(String font_name, int font_size, Color color, Color shadow_color, int shadow_offset_x, int shadow_offset_y){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));

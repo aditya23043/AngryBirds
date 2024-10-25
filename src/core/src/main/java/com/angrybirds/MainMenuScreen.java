@@ -94,12 +94,20 @@ public class MainMenuScreen extends ScreenAdapter {
                 play_button.addAction(Actions.alpha(1f));
             }
         });
-
-        button_add("img/main_menu_select_level.png").addListener(new ClickListener(){
+        ImageButton load_button = button_add("img/main_menu_select_level.png");
+        load_button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LoadGame(skin));
                 dispose();
+            }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                load_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                load_button.addAction(Actions.alpha(1f));
             }
         });
 
