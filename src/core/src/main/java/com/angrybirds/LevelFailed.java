@@ -37,7 +37,7 @@ public class LevelFailed implements Screen {
         stage=new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
-        main_title_font = font_set("fonts/angrybirds-regular.ttf", 50, Color.GREEN, Color.BLACK, 1,1 );
+        main_title_font = font_set("fonts/angrybirds-regular.ttf", 50, Color.BLACK, Color.BLACK, 1,1 );
 
         Label.LabelStyle custom_label = new Label.LabelStyle();
         custom_label.font = main_title_font;
@@ -46,6 +46,10 @@ public class LevelFailed implements Screen {
         AssetsManager assetsManager = new AssetsManager();
         assetsManager.load_font();
         assetsManager.config(skin);
+
+        assetsManager.backgroundImage("img/redbgwo.jpg");
+        assetsManager.backgroundImage.setSize(960, 540);
+        stage.addActor(assetsManager.backgroundImage);
 
         skin.get(Label.LabelStyle.class).font = main_title_font;
 
