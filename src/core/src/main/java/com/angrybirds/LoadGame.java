@@ -147,6 +147,7 @@ public class LoadGame extends ScreenAdapter {
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("Loading " + game); // Simulate loading game
                     savedGamesWindow.remove(); // Close the window after selection
+                    translucent_bg.remove();
                 }
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     gameButton.addAction(Actions.alpha(0.7f));

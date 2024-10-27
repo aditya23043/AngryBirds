@@ -13,12 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -48,7 +43,7 @@ public class MainMenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         // custom fonts
-        main_title_font = font_set("fonts/OleoScriptSwashCaps-Regular.ttf", 48, Color.WHITE);
+        main_title_font = font_set("fonts/angrybirds-regular.ttf", 38, Color.BLACK);
         button_font = font_set("fonts/Ubuntu-M.ttf", 16, Color.WHITE);
 
         // viewport
@@ -94,8 +89,19 @@ public class MainMenuScreen extends ScreenAdapter {
                 play_button.addAction(Actions.alpha(1f));
             }
         });
-        ImageButton load_button = button_add("img/main_menu_select_level.png");
-        load_button.addListener(new ClickListener(){
+        //ImageButton load_button = button_add("img/main_menu_select_level.png");
+
+        Image saved_button= assetsManager.loadImage("img/main_menu_bg.png");
+        saved_button.setSize(313,66);
+        Label save_label = new Label("       Saved Games", skin);
+
+        Stack stack = new Stack();
+        stack.add(saved_button);
+        stack.add(save_label);
+
+        table.add(stack).center().fillX().width(313).height(66).padBottom(10);
+        table.row();
+        stack.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LoadGame(skin));
@@ -103,13 +109,14 @@ public class MainMenuScreen extends ScreenAdapter {
             }
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                load_button.addAction(Actions.alpha(0.7f));
+                stack.addAction(Actions.alpha(0.7f));
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                load_button.addAction(Actions.alpha(1f));
+                stack.addAction(Actions.alpha(1f));
             }
         });
+
 
         ImageButton help_button = button_add("img/main_menu_help.png");
         help_button.addListener(new ClickListener(){
@@ -194,8 +201,8 @@ public class MainMenuScreen extends ScreenAdapter {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font_name));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.shadowColor = Color.BLACK; // Shadow color
-        parameter.shadowOffsetX = 3; // Horizontal offset for shadow
-        parameter.shadowOffsetY = 3; // Vertical offset for shadow
+        parameter.shadowOffsetX = 0; // Horizontal offset for shadow
+        parameter.shadowOffsetY = 0; // Vertical offset for shadow
         parameter.size = font_size;  // Set the font size
         parameter.color = color;  // Font color
         BitmapFont font = generator.generateFont(parameter);  // Generate BitmapFont
