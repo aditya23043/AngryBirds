@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -72,6 +74,13 @@ public class PlayScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 pauseScreen.togglePause();
                 game.setScreen(pauseScreen);
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                pause_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                pause_button.addAction(Actions.alpha(1f));
             }
         });
 
@@ -177,13 +186,20 @@ public class PlayScreen extends ScreenAdapter {
         pig_3.setPosition(700-9, 274);
         stage.addActor(pig_3);
 
-        // next level (debug)
+
         Button next_level = new Button(skin, "right");
         next_level.setPosition(viewport.getWorldWidth()-40, 10);
         next_level.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(1));
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_level.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_level.addAction(Actions.alpha(1f));
             }
         });
         stage.addActor(next_level);

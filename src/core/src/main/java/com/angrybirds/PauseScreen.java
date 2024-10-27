@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -67,6 +68,17 @@ public class PauseScreen implements Screen {
                 togglePause(); // Resume the game
             }
         });
+        resume_button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                resume_button.addAction(Actions.alpha(0.7f));
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                resume_button.addAction(Actions.alpha(1f));
+            }
+        });
 
         restart_button.addListener(new ChangeListener() {
             @Override
@@ -74,11 +86,33 @@ public class PauseScreen implements Screen {
                 game.setScreen(new PlayScreen(game)); // Restart the game
             }
         });
+        restart_button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                restart_button.addAction(Actions.alpha(0.7f));
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                restart_button.addAction(Actions.alpha(1f));
+            }
+        });
 
         exit_button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game)); // Exit the game
+            }
+        });
+        exit_button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit_button.addAction(Actions.alpha(0.7f));
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit_button.addAction(Actions.alpha(1f));
             }
         });
 
@@ -93,6 +127,13 @@ public class PauseScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 MuteStateManager.setMuted(!MuteStateManager.isMuted());
                 volume.setDrawable(MuteStateManager.isMuted() ? volumedown : volumeup);
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                volume.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                volume.addAction(Actions.alpha(1f));
             }
         });
 

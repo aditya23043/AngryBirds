@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -110,6 +112,13 @@ public class HelpMenuScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MainMenuScreen(game));
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                back_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                back_button.addAction(Actions.alpha(1f));
+            }
         });
         stage.addActor(back_button);
 
@@ -133,6 +142,13 @@ public class HelpMenuScreen extends ScreenAdapter {
                 index = (index == 0) ? (help_list.size()-1) : (index-1);
                 update_help_msg();
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                prev_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                prev_button.addAction(Actions.alpha(1f));
+            }
         });
         sub_table_bottom.add(prev_button).size(64, 64).padRight(20).left();
 
@@ -144,6 +160,13 @@ public class HelpMenuScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 index = (index == help_list.size() - 1) ? 0 : index + 1;
                 update_help_msg();
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_button.addAction(Actions.alpha(1f));
             }
         });
         sub_table_bottom.add(next_button).size(64, 64).padRight(20).right();

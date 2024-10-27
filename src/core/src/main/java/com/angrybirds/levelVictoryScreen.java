@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -57,7 +59,13 @@ public class levelVictoryScreen extends ScreenAdapter {
 
         stage.addActor(next_level_button);
         next_level_button.addListener(new ClickListener(){
-
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_level_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_level_button.addAction(Actions.alpha(1f));
+            }
         });
 
         ImageButton replay_level_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/replay_level.png"))));
@@ -69,6 +77,13 @@ public class levelVictoryScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener()));
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                replay_level_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                replay_level_button.addAction(Actions.alpha(1f));
             }
         });
 
@@ -82,6 +97,13 @@ public class levelVictoryScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelManagerScreen((Game)Gdx.app.getApplicationListener()));
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                menu_select_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                menu_select_button.addAction(Actions.alpha(1f));
+            }
         });
 
         Button next_level = new Button(skin, "right");
@@ -91,6 +113,13 @@ public class levelVictoryScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 PlayScreen playScreen = new PlayScreen((Game)Gdx.app.getApplicationListener());
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelFailed((Game)Gdx.app.getApplicationListener(), skin, playScreen));
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_level.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                next_level.addAction(Actions.alpha(1f));
             }
         });
         stage.addActor(next_level);

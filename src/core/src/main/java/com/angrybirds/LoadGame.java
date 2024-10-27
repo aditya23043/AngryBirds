@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -76,6 +78,13 @@ public class LoadGame extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen((Game) Gdx.app.getApplicationListener()));
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                back.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                back.addAction(Actions.alpha(1f));
+            }
         });
 
 
@@ -92,6 +101,13 @@ public class LoadGame extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 openSavedGamesWindow();
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                stack.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                stack.addAction(Actions.alpha(1f));
             }
         });
 
@@ -110,7 +126,6 @@ public class LoadGame extends ScreenAdapter {
         savedGamesWindow.setPosition(Gdx.graphics.getWidth()/2-150-40, Gdx.graphics.getHeight()/2-150-50);
         savedGamesWindow.center();
 
-        // Load background image
         Image backgroundImage = assetsManager.loadImage("img/pause_bg.png");
         backgroundImage.setSize(savedGamesWindow.getWidth(), savedGamesWindow.getHeight());
         savedGamesWindow.addActor(backgroundImage);
@@ -133,6 +148,13 @@ public class LoadGame extends ScreenAdapter {
                     System.out.println("Loading " + game); // Simulate loading game
                     savedGamesWindow.remove(); // Close the window after selection
                 }
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    gameButton.addAction(Actions.alpha(0.7f));
+                }
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    gameButton.addAction(Actions.alpha(1f));
+                }
             });
             contentTable.top();
             contentTable.add(gameButton).width(250).padBottom(1.5f);
@@ -153,6 +175,13 @@ public class LoadGame extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 savedGamesWindow.remove();
                 translucent_bg.remove();
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                closeButton.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                closeButton.addAction(Actions.alpha(1f));
             }
         });
 

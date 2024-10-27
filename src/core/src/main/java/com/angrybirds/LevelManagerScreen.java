@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -69,6 +71,13 @@ public class LevelManagerScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MainMenuScreen(game));
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                back.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                back.addAction(Actions.alpha(1f));
+            }
         });
 
         Table maintable=new Table();
@@ -95,11 +104,11 @@ public class LevelManagerScreen extends ScreenAdapter {
             Image levelbutton=new Image(textr);
 
             // level text font
-            TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-            textButtonStyle.font= font_set("fonts/angrybirds-regular.ttf", 60, Color.WHITE, true);
-            textButtonStyle.downFontColor = Color.RED;
+            BitmapFont textButtonStyle= font_set("fonts/SF-Pro-Text-Medium.otf", 60, Color.WHITE, true);
+            skin.get(TextButton.TextButtonStyle.class).font = textButtonStyle;
+            //textButtonStyle.downFontColor = Color.RED;
 
-            TextButton level_num = new TextButton(String.valueOf(i + 1), textButtonStyle);
+            TextButton level_num = new TextButton(String.valueOf(i + 1), skin);
             level_num.getLabel().setAlignment(Align.center);
             level_num.setDisabled(!is_upgraded);
 
@@ -118,6 +127,13 @@ public class LevelManagerScreen extends ScreenAdapter {
                     public void clicked(InputEvent event, float x, float y) {
                         game.setScreen(new PlayScreen(game));
                         // game.setScreen(new LevelOne());
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        stack.addAction(Actions.alpha(0.7f));
+                    }
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        stack.addAction(Actions.alpha(1f));
                     }
                 });
             }

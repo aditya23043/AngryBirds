@@ -157,6 +157,14 @@ public class MainMenuScreen extends ScreenAdapter {
                 MuteStateManager.setMuted(!MuteStateManager.isMuted());
                 volume.setDrawable(MuteStateManager.isMuted() ? volumedown : volumeup);
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                volume.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                volume.addAction(Actions.alpha(1f));
+            }
+
         });
 
         AssetsManager assetsManager = new AssetsManager();

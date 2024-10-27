@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -86,11 +88,25 @@ public class LevelFailed implements Screen {
             public void clicked(InputEvent event, float x,float y) {
                 game.setScreen(new MainMenuScreen(game));
             }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit.addAction(Actions.alpha(1f));
+            }
         });
 
         restart.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new PlayScreen(game));
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                restart.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                restart.addAction(Actions.alpha(1f));
             }
         });
 
