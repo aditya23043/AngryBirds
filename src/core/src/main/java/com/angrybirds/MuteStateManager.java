@@ -11,6 +11,12 @@ public class MuteStateManager {
 
     public static void setMuted(boolean value){
         mute = value;
+        if (mute) {
+            AssetsManager.getMusic().stop();
+        }
+        else {
+            AssetsManager.getMusic().play();
+        }
     }
 
 
