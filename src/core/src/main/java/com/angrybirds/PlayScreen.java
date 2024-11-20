@@ -39,15 +39,18 @@ public class PlayScreen extends ScreenAdapter {
     private PauseScreen pauseScreen;
 
     public PlayScreen(Game game) {
+
         this.game=game;
         this.stage=new Stage(new ExtendViewport(960, 540));
         this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         this.pauseScreen=new PauseScreen(game, this, skin);
+
     }
 
 
     @Override
     public void show() {
+
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
 
