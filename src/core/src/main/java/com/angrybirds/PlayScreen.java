@@ -172,23 +172,25 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(glass_2);
 
         // pigs
-        Texture pig_1_tex = new Texture("img/pig.png");
-        Image pig_1 = new Image(pig_1_tex);
-        pig_1.setScale(1f);
-        pig_1.setSize(32, 32);
-        pig_1.setPosition(500+9, 274);
-        stage.addActor(pig_1);
-        //SmallPig pig1= new SmallPig("img/pig.png", 32, 32, 500+9, 274, 1f, world);
-        //MediumPig pig2= new MediumPig("img/pig.png", 32, 32, 600, 274, 1.5f, world);
+//        Texture pig_1_tex = new Texture("img/pig.png");
+//        Image pig_1 = new Image(pig_1_tex);
+//        pig_1.setScale(1f);
+//        pig_1.setSize(32, 32);
+//        pig_1.setPosition(500+9, 274);
+//        stage.addActor(pig_1);
+        SmallPig pig1= new SmallPig("img/pig.png", 32, 32, 500+9, 274, 1f, world);
+        MediumPig pig2= new MediumPig("img/pig.png", 32, 32, 590, 274, 1.35f, world);
+        stage.addActor(pig1.getImage());
+        stage.addActor(pig2.getImage());
 
-        Texture pig_2_tex = new Texture("img/pig.png");
-        Image pig_2 = new Image(pig_2_tex);
-        pig_2.setScale(1.5f);
-        pig_2.setSize(32, 32);
-        pig_2.setPosition(600, 274);
-        stage.addActor(pig_2);
+//        Texture pig_2_tex = new Texture("img/pig.png");
+//        Image pig_2 = new Image(pig_2_tex);
+//        pig_2.setScale(1.5f);
+//        pig_2.setSize(32, 32);
+//        pig_2.setPosition(600, 274);
+//        stage.addActor(pig_2);
 
-        BigPig pig3 = new BigPig("img/pig.png", 32, 32, 500+9, 274, 2f, world);
+        BigPig pig3 = new BigPig("img/pig.png", 32, 32, 670+9, 274, 1.75f, world);
         stage.addActor(pig3.getImage());
 //
 //        Texture pig_3_tex = new Texture("img/pig.png");
