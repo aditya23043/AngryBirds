@@ -61,4 +61,8 @@ public abstract class Pig{
     abstract void takeDamage(int damage);
     abstract boolean isDead();
     abstract void move_pig(int damage);
+
+    public Image getImage() {
+        return this.pigImage;
+    }
 }

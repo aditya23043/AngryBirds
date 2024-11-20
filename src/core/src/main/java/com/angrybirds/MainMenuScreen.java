@@ -52,7 +52,9 @@ public class MainMenuScreen extends ScreenAdapter {
         // MUSIC (BONUS)
         Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
         music.setLooping(true);
-        music.play();
+        if (!MuteStateManager.isMuted()) {
+          music.play();
+        }
 
         assetsManager.setMusic(music);
 

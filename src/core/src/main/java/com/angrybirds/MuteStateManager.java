@@ -2,7 +2,6 @@ package com.angrybirds;
 
 public class MuteStateManager {
     private static boolean mute = false;
-    private static boolean mute = false;
 
     private MuteStateManager() { }
 

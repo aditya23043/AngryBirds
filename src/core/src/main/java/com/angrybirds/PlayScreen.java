@@ -188,7 +188,8 @@ public class PlayScreen extends ScreenAdapter {
         pig_2.setPosition(600, 274);
         stage.addActor(pig_2);
 
-        BigPig pig3= new BigPig("img/pig.png", 32, 32, 500+9, 274, 2f, world);
+        BigPig pig3 = new BigPig("img/pig.png", 32, 32, 500+9, 274, 2f, world);
+        stage.addActor(pig3.getImage());
 //
 //        Texture pig_3_tex = new Texture("img/pig.png");
 //        Image pig_3 = new Image(pig_3_tex);
