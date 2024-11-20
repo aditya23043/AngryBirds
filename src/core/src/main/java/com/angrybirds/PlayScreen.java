@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -37,20 +40,21 @@ public class PlayScreen extends ScreenAdapter {
     private Texture bg_img_texture;
     private Image bg_img;
     private PauseScreen pauseScreen;
+    private World world;
+    private Box2DDebugRenderer debug2D;
 
     public PlayScreen(Game game) {
-
         this.game=game;
         this.stage=new Stage(new ExtendViewport(960, 540));
         this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         this.pauseScreen=new PauseScreen(game, this, skin);
-
+        world = new World(new Vector2(0, -9.8f), true);  // Gravity for Box2D world
+        debug2D = new Box2DDebugRenderer();
     }
 
 
     @Override
     public void show() {
-
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
 
@@ -174,6 +178,8 @@ public class PlayScreen extends ScreenAdapter {
         pig_1.setSize(32, 32);
         pig_1.setPosition(500+9, 274);
         stage.addActor(pig_1);
+        //SmallPig pig1= new SmallPig("img/pig.png", 32, 32, 500+9, 274, 1f, world);
+        //MediumPig pig2= new MediumPig("img/pig.png", 32, 32, 600, 274, 1.5f, world);
 
         Texture pig_2_tex = new Texture("img/pig.png");
         Image pig_2 = new Image(pig_2_tex);
@@ -182,12 +188,14 @@ public class PlayScreen extends ScreenAdapter {
         pig_2.setPosition(600, 274);
         stage.addActor(pig_2);
 
-        Texture pig_3_tex = new Texture("img/pig.png");
-        Image pig_3 = new Image(pig_3_tex);
-        pig_3.setScale(2f);
-        pig_3.setSize(32, 32);
-        pig_3.setPosition(700-9, 274);
-        stage.addActor(pig_3);
+        BigPig pig3= new BigPig("img/pig.png", 32, 32, 500+9, 274, 2f, world);
+//
+//        Texture pig_3_tex = new Texture("img/pig.png");
+//        Image pig_3 = new Image(pig_3_tex);
+//        pig_3.setScale(2f);
+//        pig_3.setSize(32, 32);
+//        pig_3.setPosition(700-9, 274);
+//        stage.addActor(pig_3);
 
 
         Button next_level = new Button(skin, "right");
@@ -250,3 +258,4 @@ public class PlayScreen extends ScreenAdapter {
     }
 
 }
+
