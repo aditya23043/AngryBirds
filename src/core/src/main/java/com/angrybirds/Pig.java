@@ -33,6 +33,7 @@ public abstract class Pig{
         pigImage.setPosition(x,y);
         initializePhysics(x / PIXELS_PER_METER, y / PIXELS_PER_METER);
     }
+
     protected void initializePhysics(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
