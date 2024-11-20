@@ -2,6 +2,7 @@ package com.angrybirds;
 
 public class MuteStateManager {
     private static boolean mute = false;
+    private static boolean mute = false;
 
     private MuteStateManager() { }
 
@@ -12,7 +13,7 @@ public class MuteStateManager {
     public static void setMuted(boolean value){
         mute = value;
         if (mute) {
-            AssetsManager.getMusic().stop();
+            AssetsManager.getMusic().pause();
         }
         else {
             AssetsManager.getMusic().play();
