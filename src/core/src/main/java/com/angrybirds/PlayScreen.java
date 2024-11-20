@@ -123,11 +123,8 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(catapult);
 
         // birds
-        Texture red_bird_tex = new Texture("img/red1.png");
-        Image red_bird = new Image(red_bird_tex);
-        red_bird.setScale(0.18f);
-        red_bird.setPosition(60, 170);
-        stage.addActor(red_bird);
+        RedBird b1 = new RedBird(60, 170, 0.18f, world);
+        stage.addActor(b1.getImage());
 
         Texture red_bird_2_tex = new Texture("img/red1.png");
         Image red_bird_2 = new Image(red_bird_2_tex);
