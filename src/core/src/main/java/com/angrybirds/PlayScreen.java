@@ -1,9 +1,6 @@
 package com.angrybirds;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -116,21 +114,48 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(catapult_credit);
 
         // catapult
-        Texture catapult_tex = new Texture("img/catapult.png");
-        Image catapult = new Image(catapult_tex);
-        catapult.setScale(0.25f);;
-        catapult.setPosition(100, 174);
+//        Texture catapult_tex = new Texture("img/catapult.png");
+//        Image catapult2 = new Image(catapult_tex);
+//        catapult2.setScale(0.25f);;
+//        catapult2.setPosition(100, 174);
+        Catapult catapult = new Catapult(100, 174, 0.25f);
         stage.addActor(catapult);
 
-        // birds
-        RedBird b1 = new RedBird(60, 170, 0.18f, world);
-        stage.addActor(b1.getImage());
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                catapult.startStretch(new Vector2(x, y));
+                return true;
+            }
 
-        Texture red_bird_2_tex = new Texture("img/red1.png");
-        Image red_bird_2 = new Image(red_bird_2_tex);
-        red_bird_2.setScale(0.18f);
-        red_bird_2.setPosition(20, 170);
-        stage.addActor(red_bird_2);
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                catapult.updateStretch(new Vector2(x, y));
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                catapult.releaseStretch();
+            }
+        });
+
+        // birds
+//        Texture red_bird_tex = new Texture("img/red1.png");
+//        Image red_bird = new Image(red_bird_tex);
+//        red_bird.setScale(0.18f);
+//        red_bird.setPosition(60, 170);
+//        stage.addActor(red_bird);
+
+        RedBird r1= new RedBird(60, 60,60, 170, 0.18f, world);
+        stage.addActor(r1.getImage());
+        RedBird r2= new RedBird(60, 60,20, 170, 0.18f, world);
+        stage.addActor(r2.getImage());
+
+//        Texture red_bird_2_tex = new Texture("img/red1.png");
+//        Image red_bird_2 = new Image(red_bird_2_tex);
+//        red_bird_2.setScale(0.18f);
+//        red_bird_2.setPosition(20, 170);
+//        stage.addActor(red_bird_2);
 
         // stone
         Texture stone_tex = new Texture("img/stone.png");
@@ -148,12 +173,12 @@ public class PlayScreen extends ScreenAdapter {
         Texture wood_tex = new Texture("img/wood.png");
         Image wood = new Image(wood_tex);
         wood.setSize(50, 50);
-        wood.setPosition(600, 174);
+        wood.setPosition(590, 174);
         stage.addActor(wood);
         Texture wood_2_tex = new Texture("img/wood.png");
         Image wood_2 = new Image(wood_2_tex);
         wood_2.setSize(50, 50);
-        wood_2.setPosition(600, 224);
+        wood_2.setPosition(590, 224);
         stage.addActor(wood_2);
 
         // glass

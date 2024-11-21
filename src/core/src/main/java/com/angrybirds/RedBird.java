@@ -4,8 +4,8 @@ import com.badlogic.gdx.physics.box2d.World;
 
 class RedBird extends Bird {
 
-    public RedBird(int x, int y, float scale, World world) {
-        super("img/red1.png", x, y, scale, world);
+    public RedBird(int width, int height, int x, int y, float scale, World world) {
+        super("img/red1.png", width, height, x, y, scale, world);
     }
 
     @Override

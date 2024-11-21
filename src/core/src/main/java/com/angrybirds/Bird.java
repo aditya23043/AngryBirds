@@ -28,7 +28,7 @@ public abstract class Bird {
     private Color color;
     private int hits_dealt;
 
-    public Bird(String texturepath, int x, int y, float scale, World world) {
+    public Bird(String texturepath, int width, int height, int x, int y, float scale, World world) {
         this.world = world;
         this.birdTexture = new Texture(texturepath);
         this.birdImage = new Image(birdTexture);
