@@ -1,7 +1,6 @@
 package com.angrybirds;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,7 +17,6 @@ public class AssetsManager {
     public BitmapFont title_font_large;
     public BitmapFont button_font;
     public BitmapFont credit_font;
-    private static Music music;
 
     public Texture backgroundTexture;
     public Image backgroundImage;
@@ -64,14 +62,6 @@ public class AssetsManager {
         BitmapFont font = generator.generateFont(parameter);  // Generate BitmapFont
         generator.dispose();  // Dispose of the generator when done
         return font;
-    }
-
-    public void setMusic(Music _mus){
-        music = _mus;
-    }
-
-    public static Music getMusic() {
-        return music;
     }
 
 }

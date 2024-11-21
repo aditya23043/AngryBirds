@@ -33,33 +33,38 @@ public class PauseScreen implements Screen {
         this.playScreen = playScreen;
         this.stage = new Stage(new ScreenViewport());
         this.pauseWindow = new Window("Paused", skin, "default");
-        pauseWindow.setSize(600, 300);  // Set smaller size
-        pauseWindow.setColor(new Color(0, 0, 0, 1f)); // Slightly transparent black background
+        pauseWindow.setSize(600, 300);
+        pauseWindow.setColor(new Color(0, 0, 0, 1f));
 
-        // Center the window on the screen
         pauseWindow.setPosition(
             (Gdx.graphics.getWidth() - pauseWindow.getWidth()) / 2,
             (Gdx.graphics.getHeight() - pauseWindow.getHeight()) / 2
         );
-        pauseWindow.setVisible(false); // Initially hidden
+        pauseWindow.setVisible(false);
 
         AssetsManager assetsManager = new AssetsManager();
 
         // Create buttons
         Image pause_menu_bg = assetsManager.loadImage("img/pause_bg.png");
-        pause_menu_bg.setSize(300, 400);
-        pause_menu_bg.setPosition(Gdx.graphics.getWidth()/2-150, Gdx.graphics.getHeight()/2-150-20);
+        pause_menu_bg.setSize(300, 400+10+10+7);
+        pause_menu_bg.setPosition(Gdx.graphics.getWidth()/2-150, Gdx.graphics.getHeight()/2-150-20-7-20);
 
         Image translucent_bg = assetsManager.loadImage("img/translucent.png");
 
         ImageButton resume_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_resume_button.png"))));
-        resume_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10);
+        resume_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-20);
 
         ImageButton restart_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_restart_button.png"))));
-        restart_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-87-10);
+        restart_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-87-10-20);
 
         ImageButton exit_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_exit_button.png"))));
-        exit_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-87-10-87-10);
+        exit_button.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-87-10-10-87-10-87-10-20);
+
+        TextureRegionDrawable vol = new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_mute_button.png")));
+        TextureRegionDrawable vol_mute = new TextureRegionDrawable(new TextureRegion(new Texture("img/menu_unmute_button.png")));
+        volume = new Image(MuteStateManager.isMuted() ? vol_mute : vol);
+        volume.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 20, Gdx.graphics.getHeight() / 2 - 150 + 300-10-20);
+
 
         // Set up button listeners
         resume_button.addListener(new ChangeListener() {
@@ -115,18 +120,11 @@ public class PauseScreen implements Screen {
                 exit_button.addAction(Actions.alpha(1f));
             }
         });
-
-        TextureRegionDrawable volumedown = new TextureRegionDrawable(new TextureRegion(new Texture("img/volume_mute.png")));
-        TextureRegionDrawable volumeup = new TextureRegionDrawable(new TextureRegion(new Texture("img/volume.png")));
-        volume = new Image(MuteStateManager.isMuted() ? volumedown : volumeup);
-
-        volume.setPosition(Gdx.graphics.getWidth() / 2 - 150 + 120, Gdx.graphics.getHeight() / 2 - 150 + 300-10);
-        volume.setSize(60,60);
         volume.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 MuteStateManager.setMuted(!MuteStateManager.isMuted());
-                volume.setDrawable(MuteStateManager.isMuted() ? volumedown : volumeup);
+                volume.setDrawable(MuteStateManager.isMuted() ? vol_mute : vol);
             }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 volume.addAction(Actions.alpha(0.7f));

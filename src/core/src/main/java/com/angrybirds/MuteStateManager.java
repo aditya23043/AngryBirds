@@ -1,9 +1,22 @@
 package com.angrybirds;
 
-public class MuteStateManager {
-    private static boolean mute = false;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 
-    private MuteStateManager() { }
+public class MuteStateManager {
+
+    private static boolean mute = false;
+    private static Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));;
+
+    MuteStateManager() {
+        music.setLooping(true);
+    }
+
+    public static void init() {
+        if (!MuteStateManager.isMuted()) {
+          MuteStateManager.getMusic().play();
+        }
+    }
 
     public static boolean isMuted() {
         return mute;
@@ -12,12 +25,15 @@ public class MuteStateManager {
     public static void setMuted(boolean value){
         mute = value;
         if (mute) {
-            AssetsManager.getMusic().pause();
+            music.pause();
         }
         else {
-            AssetsManager.getMusic().play();
+            music.play();
         }
     }
 
+    public static Music getMusic() {
+        return music;
+    }
 
 }
