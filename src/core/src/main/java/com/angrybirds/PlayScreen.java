@@ -146,9 +146,9 @@ public class PlayScreen extends ScreenAdapter {
 //        red_bird.setPosition(60, 170);
 //        stage.addActor(red_bird);
 
-        RedBird r1= new RedBird(60, 60,60, 170, 0.18f, world);
+        RedBird r1= new RedBird("img/red1.png", 60, 60,60, 170, 0.18f, world);
         stage.addActor(r1.getImage());
-        RedBird r2= new RedBird(60, 60,20, 170, 0.18f, world);
+        RedBird r2= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world);
         stage.addActor(r2.getImage());
 
 //        Texture red_bird_2_tex = new Texture("img/red1.png");
