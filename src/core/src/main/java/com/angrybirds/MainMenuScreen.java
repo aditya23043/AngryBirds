@@ -3,7 +3,6 @@ package com.angrybirds;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -43,20 +42,14 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public MainMenuScreen(Game game) {
         this.game = game;
-        assetsManager= new AssetsManager();
+        assetsManager = new AssetsManager();
     }
 
     @Override
     public void show() {
 
         // MUSIC (BONUS)
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
-        music.setLooping(true);
-        if (!MuteStateManager.isMuted()) {
-          music.play();
-        }
-
-        assetsManager.setMusic(music);
+        MuteStateManager.init();
 
         // custom fonts
         main_title_font = font_set("fonts/angrybirds-regular.ttf", 38, Color.BLACK);

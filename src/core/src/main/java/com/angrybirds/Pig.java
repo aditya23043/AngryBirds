@@ -29,7 +29,7 @@ public abstract class Pig{
         this.width=width;
         this.height=height;
         pigImage.setScale(scale);
-        pigImage.setSize(width * scale, height * scale);
+        // pigImage.setSize(width * scale, height * scale);
         pigImage.setPosition(x,y);
         initializePhysics(x / PIXELS_PER_METER, y / PIXELS_PER_METER);
     }

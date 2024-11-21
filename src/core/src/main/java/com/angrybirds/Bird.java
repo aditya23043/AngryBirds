@@ -38,7 +38,7 @@ public abstract class Bird {
         this.height = height;
         birdImage.setScale(scale);
         birdImage.setPosition(x,y);
-        initializePhysics(x / PIXELS_PER_METER, y / PIXELS_PER_METER);
+        // initializePhysics(x / PIXELS_PER_METER, y / PIXELS_PER_METER);
     }
 
     protected void initializePhysics(float x, float y) {
