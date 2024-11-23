@@ -118,7 +118,7 @@ public class PlayScreen extends ScreenAdapter {
 //        Image catapult2 = new Image(catapult_tex);
 //        catapult2.setScale(0.25f);;
 //        catapult2.setPosition(100, 174);
-        Catapult catapult = new Catapult(100, 174, 0.25f);
+        Catapult catapult = new Catapult(140, 174, 0.25f, world);
         stage.addActor(catapult);
 
         stage.addListener(new InputListener() {
@@ -146,10 +146,40 @@ public class PlayScreen extends ScreenAdapter {
 //        red_bird.setPosition(60, 170);
 //        stage.addActor(red_bird);
 
-        RedBird r1= new RedBird("img/red1.png", 60, 60,60, 170, 0.18f, world);
-        stage.addActor(r1.getImage());
-        RedBird r2= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world);
-        stage.addActor(r2.getImage());
+        RedBird r1= new RedBird("img/red1.png", 60, 60,67, 170, 0.18f, world, "r1");
+        r1.setIs_bounce(true);
+        stage.addActor(r1);
+        RedBird r2= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world, "r2");
+        r2.setIs_bounce(true);
+        stage.addActor(r2);
+//        RedBird r3= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world, "r2");
+//        r3.setIs_bounce(true);
+//        stage.addActor(r3);
+
+        for(int i=0; i<2; i++){
+            if(catapult.isIs_empty() && i==0){
+                r1.setIs_bounce(false);
+                catapult.loadBird(r1);
+            }
+            else if(catapult.isIs_empty() && i==1){
+                r2.setIs_bounce(false);
+                catapult.loadBird(r2);
+            }
+//            else if(catapult.isIs_empty() && i==2){
+//                r2.setIs_bounce(false);
+//                catapult.loadBird(r3);
+//            }
+        }
+
+//        if (catapult.isIs_empty()) {
+//            System.out.println("Function is being called ");
+//            catapult.loadBird(r1);
+//        }
+//
+//        if (catapult.isIs_empty()) {
+//            catapult.loadBird(r2);  // Load the second bird if catapult is still empty after r1
+//        }
+
 
 //        Texture red_bird_2_tex = new Texture("img/red1.png");
 //        Image red_bird_2 = new Image(red_bird_2_tex);
@@ -273,7 +303,7 @@ public class PlayScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act();
+        stage.act(delta);
         stage.draw();
 
     }

@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -15,12 +19,18 @@ public class Catapult extends Actor {
     private Vector2 branchLeft, branchRight;
     private Vector2 dragPosition;
     private boolean isStretching;
+    private boolean isDragging;
     private ShapeRenderer shapeRenderer;
+    private World world;
+    private Body catapultBody;
+    private Bird loadedBird;
+    private boolean is_empty;
+
     private float projectileMass = 1.0f;
     private float gravity = -9.8f;
+    private float launchScale = 5.0f; // Adjust to control the strength of the launch
 
-
-    public Catapult(float x, float y, float scale) {
+    public Catapult(float x, float y, float scale, World world) {
         Texture catapultTexture = new Texture("img/catapult.png");
         this.catapultImage = new Image(catapultTexture);
 
@@ -28,41 +38,67 @@ public class Catapult extends Actor {
         this.catapultImage.setPosition(x, y);
         this.catapultImage.setScale(scale);
 
-        this.branchLeft = new Vector2(x +14, y + 100);
+        this.branchLeft = new Vector2(x + 14, y + 100);
         this.branchRight = new Vector2(x + 40, y + 102);
 
         this.dragPosition = new Vector2(x, y);
         this.isStretching = false;
-        this.traject_position = new Vector2(x+50, y+101);
+        this.isDragging = false;
+        this.traject_position = new Vector2(x, y + 101);
         this.shapeRenderer = new ShapeRenderer();
+        this.world = world;
+        this.is_empty=true;
+
+        initializeCatapultBody();
+    }
+
+    private void initializeCatapultBody() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(basePosition.x / Bird.PIXELS_PER_METER, basePosition.y / Bird.PIXELS_PER_METER);
+        bodyDef.type = BodyDef.BodyType.StaticBody; // Catapult body remains stationary
+
+        catapultBody = world.createBody(bodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(catapultImage.getWidth() / 2 / Bird.PIXELS_PER_METER, catapultImage.getHeight() / 2 / Bird.PIXELS_PER_METER);
+
+        catapultBody.createFixture(shape, 0.0f);
+        shape.dispose();
+    }
+
+    public void loadBird(Bird bird) {
+        this.loadedBird = bird;
+        is_empty=false;
+        System.out.println(bird.getname());
+        System.out.println("bird is getting loaded");
+        loadedBird.setInit_begin(false);
+    }
+
+    public boolean isIs_empty() {
+        return is_empty;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        catapultImage.draw(batch, parentAlpha);
-
         batch.end();
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         shapeRenderer.setColor(0, 0, 0, 1);
 
-        if (isStretching) {
+        if (isStretching && isDragging) {
             drawCurve(branchLeft, dragPosition, branchRight);
-            Vector2 velocity = calculateVelocity(traject_position, dragPosition);
             shapeRenderer.setColor(1, 0, 0, 1);
-            drawTrajectory(traject_position, velocity);
         } else {
             shapeRenderer.rectLine(branchLeft, branchRight, 5);
         }
 
         shapeRenderer.end();
         batch.begin();
+        catapultImage.draw(batch, parentAlpha);
     }
 
-
     private void drawCurve(Vector2 start, Vector2 control, Vector2 end) {
-
         Bezier<Vector2> curve = new Bezier<>(start, control, end);
         Vector2 tmp = new Vector2();
 
@@ -82,40 +118,53 @@ public class Catapult extends Actor {
     }
 
     public void startStretch(Vector2 startPosition) {
-        this.isStretching = true;
-        this.dragPosition.set(startPosition);
-    }
-
-    public void updateStretch(Vector2 currentPosition) {
-        if (isStretching) {
-            this.dragPosition.set(currentPosition);
+        float distanceThreshold = 40f;
+        if (startPosition.dst(traject_position) <= distanceThreshold) {
+            this.isStretching = true;
+            this.isDragging = true;
+            this.dragPosition.set(startPosition);
         }
     }
 
-    public void releaseStretch() {
-        this.isStretching = false;
-        this.dragPosition.set(basePosition); // Reset to the base
+    public void updateStretch(Vector2 currentPosition) {
+        if (isStretching && isDragging) {
+            Vector2 direction = new Vector2(currentPosition).sub(traject_position);
+
+            float maxDistance = 150;
+            float distance = direction.len();
+
+            if (distance > maxDistance) {
+                direction.nor().scl(maxDistance);
+            }
+
+            Vector2 constrainedPosition = new Vector2(traject_position).add(direction);
+
+            if (loadedBird != null) {
+                loadedBird.setPosition(constrainedPosition.x, constrainedPosition.y);
+            }
+
+            dragPosition.set(constrainedPosition);
+        }
     }
 
-    private void drawTrajectory(Vector2 startPosition, Vector2 velocity) {
-        float timeStep = 0.1f;
-        int maxSteps = 6;
-        Vector2 position = new Vector2(startPosition);
-        Vector2 currentVelocity = new Vector2(velocity);
 
-        for (int i = 0; i<maxSteps; i++) {
-            shapeRenderer.circle(position.x, position.y, 5);
 
-            position.add(currentVelocity.x * timeStep, currentVelocity.y * timeStep);
-            currentVelocity.add(0, gravity * timeStep);
+    public void releaseStretch() {
+        if (loadedBird != null && isStretching) {
+            Vector2 launchVelocity = calculateVelocity(traject_position, dragPosition);
+            loadedBird.body.applyLinearImpulse(
+                new Vector2(launchVelocity.x, launchVelocity.y),
+                loadedBird.body.getWorldCenter(),
+                true
+            );
+            this.isStretching = false;
+            this.isDragging = false;
+            loadedBird = null;
+            is_empty=true;
         }
     }
 
     private Vector2 calculateVelocity(Vector2 base, Vector2 drag) {
-        float scale = 5.0f;
-        Vector2 velocity = new Vector2(base).sub(drag).scl(scale);
-        return velocity;
+        return new Vector2(base).sub(drag).scl(launchScale);
     }
-
-
 }
