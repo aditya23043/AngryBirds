@@ -14,7 +14,7 @@ class RedBird extends Bird {
     }
 
     @Override
-    void move_bird(int damage) {
+    void moveBird(int damage) {
 
     }
 

@@ -135,6 +135,7 @@ public class PlayScreen extends ScreenAdapter {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("Releasing");
                 catapult.releaseStretch();
             }
         });
@@ -145,30 +146,31 @@ public class PlayScreen extends ScreenAdapter {
 //        red_bird.setScale(0.18f);
 //        red_bird.setPosition(60, 170);
 //        stage.addActor(red_bird);
-
+        RedBird r3= new RedBird("img/red1.png", 60, 60,67, 170, 0.18f, world, "r3");
+        r3.setIs_bounce(true);
+        stage.addActor(r3);
         RedBird r1= new RedBird("img/red1.png", 60, 60,67, 170, 0.18f, world, "r1");
         r1.setIs_bounce(true);
         stage.addActor(r1);
         RedBird r2= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world, "r2");
         r2.setIs_bounce(true);
         stage.addActor(r2);
-//        RedBird r3= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world, "r2");
-//        r3.setIs_bounce(true);
-//        stage.addActor(r3);
 
         for(int i=0; i<2; i++){
             if(catapult.isIs_empty() && i==0){
                 r1.setIs_bounce(false);
+                r1.set_jump(true);
                 catapult.loadBird(r1);
             }
             else if(catapult.isIs_empty() && i==1){
                 r2.setIs_bounce(false);
+                r2.set_jump(true);
                 catapult.loadBird(r2);
             }
-//            else if(catapult.isIs_empty() && i==2){
-//                r2.setIs_bounce(false);
-//                catapult.loadBird(r3);
-//            }
+            else if(catapult.isIs_empty() && i==2){
+                r3.setIs_bounce(false);
+                catapult.loadBird(r3);
+            }
         }
 
 //        if (catapult.isIs_empty()) {
@@ -302,6 +304,8 @@ public class PlayScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        world.step(1/200f, 6, 2);
 
         stage.act(delta);
         stage.draw();
