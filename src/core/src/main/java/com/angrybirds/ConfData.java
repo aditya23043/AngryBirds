@@ -7,10 +7,9 @@ public class ConfData implements Serializable {
     private String username;
     public int score;
 
-    ConfData(String name, int score, Level progress) {
+    ConfData(String name, int score) {
         this.username = name;
         this.score = score;
-        this.progress = Level progress;
     }
 
 }
