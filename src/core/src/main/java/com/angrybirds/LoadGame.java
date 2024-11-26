@@ -94,6 +94,8 @@ public class LoadGame extends ScreenAdapter {
         if(returnVal == JFileChooser.APPROVE_OPTION){
             Label label = new Label("Config File: "+chooser.getSelectedFile().getName(), label_style);
             table_left.add(label);
+            // ConfData.write_sample_conf();
+            ConfData.read();
         }
         // System.out.println("You chose to open this file: " + chooser.getSelectedFile().getAbsolutePath());
         else {
