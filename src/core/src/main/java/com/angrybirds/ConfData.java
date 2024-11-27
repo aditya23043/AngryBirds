@@ -9,15 +9,16 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+
 
 public class ConfData implements Serializable {
-
 
     private static ArrayList<ConfData> conf_array = new ArrayList<>();
 
     // attribs to store
-    public String username;
-    public int score;
+    private String username;
+    private int score;
     private String conf_file;
 
     ConfData(String conf_file) {
@@ -26,44 +27,35 @@ public class ConfData implements Serializable {
         this.conf_file = conf_file;
     }
 
-    public void write(String name, int score) {
-        this.username = name;
-        this.score = score;
+    public void write(String _username, int _score) {
+        this.username = _username;
+        this.score = _score;
+        conf_array.add(this);
 
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.conf_file));
-            out.writeObject(this);
+        try (FileOutputStream file = new FileOutputStream(this.conf_file, false);
+                ObjectOutputStream out = new ObjectOutputStream(file)) {
+            out.writeObject(ConfData.conf_array);
+            file.close();
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void write_sample_conf() {
-        String conf_file_debug = "something.dat";
-        ConfData sample_data = new ConfData(conf_file_debug);
-        sample_data.write("Aditya Gautam", 200);
-        // sample_data.write("Something", 120);
-        // sample_data.write("Else", 140);
-        // sample_data.write("idk", 90);
-        // sample_data.write("hmmmmmmmm", 500);
-    }
-
-    public static void read() {
-
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("something.dat"))) {
-            while (true) {
-                try {
-                    ConfData _din = (ConfData) in.readObject();
-                    System.out.println(_din.username);
-                }
-                catch(EOFException e){
-                    break;
-                }
+    public void read() {
+        try (FileInputStream file = new FileInputStream(this.conf_file);
+                ObjectInputStream in = new ObjectInputStream(file)) {
+            ArrayList<ConfData> _arr = (ArrayList<ConfData>) in.readObject();
+            for (ConfData _conf_data : _arr) {
+                System.out.println(_conf_data.username);
+                System.out.println(_conf_data.score);
+                System.out.println();
             }
-        }
-        catch (IOException | ClassNotFoundException e) {
+            file.close();
+            in.close();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 }

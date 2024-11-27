@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -29,8 +30,7 @@ public class LoadGame extends ScreenAdapter {
     private Skin skin;
     private Stage stage;
     private Viewport viewport;
-    private Table table_left;
-    private Table table_right;
+    private Table table;
     private AssetsManager assetsManager;
 
 
@@ -39,10 +39,8 @@ public class LoadGame extends ScreenAdapter {
         this.skin = skin;
         stage = new Stage();
         viewport = new ExtendViewport(960, 540);
-        table_left = new Table();
-        table_left.setFillParent(true);
-        table_right = new Table();
-        table_right.setFillParent(true);
+        table = new Table();
+        table.setFillParent(true);
         assetsManager = new AssetsManager();
         assetsManager.load_font();
 
@@ -54,10 +52,10 @@ public class LoadGame extends ScreenAdapter {
 
     public void show() {
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/JetBrainsMono-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AgaveNerdFont-Bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.spaceX = -1;
-        parameter.size = 15;
+        // parameter.spaceX = -1;
+        parameter.size = 20;
         parameter.borderWidth = 1;
         parameter.color = Color.WHITE;
         parameter.borderColor = Color.BLACK;
@@ -86,24 +84,25 @@ public class LoadGame extends ScreenAdapter {
             }
         });
 
-        // for debugging
-        JFileChooser chooser = new JFileChooser("/home/adi/repo/AngryBirds/src/core/src/main/java/com/angrybirds");
-        // JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(new FileNameExtensionFilter("Custom Config File", "dat"));
+        // storing the configuration file in assets/ directory
+        System.out.println(Gdx.files.internal("").file().getAbsolutePath());
+        JFileChooser chooser = new JFileChooser(Gdx.files.internal("").file().getAbsolutePath());
+        chooser.setFileFilter(new FileNameExtensionFilter("Angry Birds Config File", "dat"));
         int returnVal = chooser.showOpenDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION){
             Label label = new Label("Config File: "+chooser.getSelectedFile().getName(), label_style);
-            table_left.add(label);
-            // ConfData.write_sample_conf();
-            ConfData.read();
+            label.setAlignment(Align.top);
+            stage.addActor(label);
+            ConfData sample_data = new ConfData(chooser.getSelectedFile().getAbsoluteFile().toString());
+            sample_data.write("Aditya Gautam", 20);
+            sample_data.read();
         }
         // System.out.println("You chose to open this file: " + chooser.getSelectedFile().getAbsolutePath());
         else {
 
         }
 
-        stage.addActor(table_left);
-        stage.addActor(table_right);
+        stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
 
