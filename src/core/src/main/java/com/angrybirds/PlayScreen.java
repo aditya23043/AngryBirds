@@ -177,7 +177,7 @@ public class PlayScreen extends ScreenAdapter {
         next_level.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(1, 3));
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(3));
             }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 next_level.addAction(Actions.alpha(0.7f));
