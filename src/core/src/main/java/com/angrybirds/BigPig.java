@@ -7,6 +7,7 @@ public class BigPig extends Pig{
 
     public BigPig(String levelpath, int width, int height, int x, int y, float scale, World world) {
         super(levelpath, width, height, x, y, scale, world);
+        int health=3;
     }
     @Override
     void takeDamage(int damage) {
@@ -14,12 +15,12 @@ public class BigPig extends Pig{
     }
 
     @Override
-    boolean isDead() {
+    public boolean isDead() {
         return false;
     }
 
     @Override
-    void move_pig(int damage) {
+    public void move_pig(int damage){
 
     }
 }

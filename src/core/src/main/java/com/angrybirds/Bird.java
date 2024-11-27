@@ -42,6 +42,9 @@ public abstract class Bird extends Actor {
 
     public Bird(String texturePath, int width, int height, int x, int y, float scale, World world, String name) {
         this.world = world;
+        if(world==null){
+            System.out.println("Here");
+        }
         this.birdTexture = new Texture(texturePath);
         this.birdImage = new Image(birdTexture);
         this.width = width;
@@ -98,10 +101,12 @@ public abstract class Bird extends Actor {
                 body.setLinearVelocity(velocity);
             }
 
+            if (getX() < 0 || getX() > 960 || getY() < 0 || getY() > 540) {
+                die();
+            }
+
         }
         else if (initBegin && isBounce) {
-//            System.out.println(name);
-//            System.out.println(position);
             updateBounce(delta);
 
         }
@@ -188,6 +193,24 @@ public abstract class Bird extends Actor {
     }
 
     public void set_jump(boolean val){
+        System.out.println(name);
         this.jumping=val;
+    }
+
+    public void die() {
+        // Stop the bird's movement and set its velocity to zero
+        body.setLinearVelocity(0, 0);
+        body.setGravityScale(0);  // Optionally, turn off gravity if needed
+        isReleased = false;       // The bird is no longer released
+        // You can trigger animations or other effects here
+        System.out.println(name + " has died.");
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setReleased(boolean b) {
+        isReleased=b;
     }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 
-class LevelOne extends Level {
+class LevelTwo extends Level {
 
     SpriteBatch batch;
     Texture img;
@@ -16,10 +16,10 @@ class LevelOne extends Level {
     ArrayList<Bird> birds;
     ArrayList<Block> blocks;
     World world;
-    int num_pigs=3;
+    int num_pigs=4;
     int num_birds=5;
 
-    public LevelOne(World world){
+    public LevelTwo(World world){
         super(world);
         this.world=world;this.pigs = new ArrayList<>();
         this.birds = new ArrayList<>();
@@ -35,11 +35,11 @@ class LevelOne extends Level {
     public void add_birds(){
         Bird r3= new YellowBird( 60, 60,59, 170, 0.1f, world, "r3");
         r3.setIs_bounce(true);
-        Bird r4= new YellowBird(60, 60,106, 170, 0.1f, world, "r3");
+        Bird r4= new BlueBird(60, 60,106, 170, 0.1f, world, "r3");
         r4.setIs_bounce(true);
-        Bird r1= new RedBird(60, 60,54, 170, 0.18f, world, "r1");
+        Bird r1= new YellowBird( 60, 60,59, 170, 0.1f, world, "r3");
         r1.setIs_bounce(true);
-        Bird r2= new RedBird(60, 60,12, 170, 0.18f, world, "r2");
+        Bird r2= new BlueBird(60, 60,12, 170, 0.1f, world, "r2");
         r2.setIs_bounce(true);
         birds.add(r1);
         birds.add(r4);
@@ -103,5 +103,7 @@ class LevelOne extends Level {
     public ArrayList<Bird> get_birds() {
         return birds;
     }
+
+
 
 }

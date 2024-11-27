@@ -7,6 +7,7 @@ public class SmallPig extends Pig{
 
     public SmallPig(String levelpath, int width, int height, int x, int y, float scale, World world) {
         super(levelpath, width, height, x, y, scale, world);
+        health=1;
     }
     @Override
     void takeDamage(int damage) {

@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -40,14 +39,28 @@ public class PlayScreen extends ScreenAdapter {
     private PauseScreen pauseScreen;
     private World world;
     private Box2DDebugRenderer debug2D;
+    private int birdnum=0;
+    private Catapult catapult;
+    private Bird r1;
+    private RedBird r2;
+    private RedBird r3;
+    private RedBird r4;
+    private Level level;
 
-    public PlayScreen(Game game) {
+
+    public PlayScreen(Game game){
         this.game=game;
         this.stage=new Stage(new ExtendViewport(960, 540));
         this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         this.pauseScreen=new PauseScreen(game, this, skin);
         world = new World(new Vector2(0, -9.8f), true);  // Gravity for Box2D world
         debug2D = new Box2DDebugRenderer();
+        int level_num=1;
+        LevelTwo levelOne= new LevelTwo(world);
+        levelOne.add_birds();
+        levelOne.add_pigs();
+        levelOne.add_blocks();
+        this.level= levelOne;
     }
 
 
@@ -114,11 +127,7 @@ public class PlayScreen extends ScreenAdapter {
         stage.addActor(catapult_credit);
 
         // catapult
-//        Texture catapult_tex = new Texture("img/catapult.png");
-//        Image catapult2 = new Image(catapult_tex);
-//        catapult2.setScale(0.25f);;
-//        catapult2.setPosition(100, 174);
-        Catapult catapult = new Catapult(140, 174, 0.25f, world);
+        catapult = new Catapult(140, 174, 0.25f, world);
         stage.addActor(catapult);
 
         stage.addListener(new InputListener() {
@@ -137,130 +146,38 @@ public class PlayScreen extends ScreenAdapter {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("Releasing");
                 catapult.releaseStretch();
+                if(birdnum<4){
+                    calling_bird(birdnum);
+                }
             }
         });
 
-        // birds
-//        Texture red_bird_tex = new Texture("img/red1.png");
-//        Image red_bird = new Image(red_bird_tex);
-//        red_bird.setScale(0.18f);
-//        red_bird.setPosition(60, 170);
-//        stage.addActor(red_bird);
-        RedBird r3= new RedBird("img/red1.png", 60, 60,67, 170, 0.18f, world, "r3");
-        r3.setIs_bounce(true);
-        stage.addActor(r3);
-        RedBird r1= new RedBird("img/red1.png", 60, 60,67, 170, 0.18f, world, "r1");
-        r1.setIs_bounce(true);
-        stage.addActor(r1);
-        RedBird r2= new RedBird("img/red1.png", 60, 60,20, 170, 0.18f, world, "r2");
-        r2.setIs_bounce(true);
-        stage.addActor(r2);
-
-        for(int i=0; i<2; i++){
-            if(catapult.isIs_empty() && i==0){
-                r1.setIs_bounce(false);
-                r1.set_jump(true);
-                catapult.loadBird(r1);
-            }
-            else if(catapult.isIs_empty() && i==1){
-                r2.setIs_bounce(false);
-                r2.set_jump(true);
-                catapult.loadBird(r2);
-            }
-            else if(catapult.isIs_empty() && i==2){
-                r3.setIs_bounce(false);
-                catapult.loadBird(r3);
-            }
+        for(Block block: level.get_blocks()){
+            stage.addActor(block);
         }
 
-//        if (catapult.isIs_empty()) {
-//            System.out.println("Function is being called ");
-//            catapult.loadBird(r1);
-//        }
-//
-//        if (catapult.isIs_empty()) {
-//            catapult.loadBird(r2);  // Load the second bird if catapult is still empty after r1
-//        }
+        System.out.println("Completed");
 
+        for(Bird bird: level.get_birds()){
+            stage.addActor(bird);
+        }
 
-//        Texture red_bird_2_tex = new Texture("img/red1.png");
-//        Image red_bird_2 = new Image(red_bird_2_tex);
-//        red_bird_2.setScale(0.18f);
-//        red_bird_2.setPosition(20, 170);
-//        stage.addActor(red_bird_2);
+        for(Pig pig: level.get_pigs()){
+            stage.addActor(pig);
+        }
 
-        // stone
-        Texture stone_tex = new Texture("img/stone.png");
-        Image stone = new Image(stone_tex);
-        stone.setSize(50, 50);
-        stone.setPosition(700, 174);
-        stage.addActor(stone);
-        Texture stone_2_tex = new Texture("img/stone.png");
-        Image stone_2 = new Image(stone_2_tex);
-        stone_2.setSize(50, 50);
-        stone_2.setPosition(700, 224);
-        stage.addActor(stone_2);
-
-        // wood
-        Texture wood_tex = new Texture("img/wood.png");
-        Image wood = new Image(wood_tex);
-        wood.setSize(50, 50);
-        wood.setPosition(590, 174);
-        stage.addActor(wood);
-        Texture wood_2_tex = new Texture("img/wood.png");
-        Image wood_2 = new Image(wood_2_tex);
-        wood_2.setSize(50, 50);
-        wood_2.setPosition(590, 224);
-        stage.addActor(wood_2);
-
-        // glass
-        Texture glass_tex = new Texture("img/glass.png");
-        Image glass = new Image(glass_tex);
-        glass.setSize(50, 50);
-        glass.setPosition(500, 174);
-        stage.addActor(glass);
-        Texture glass_2_tex = new Texture("img/glass.png");
-        Image glass_2 = new Image(glass_2_tex);
-        glass_2.setSize(50, 50);
-        glass_2.setPosition(500, 224);
-        stage.addActor(glass_2);
-
-        // pigs
-//        Texture pig_1_tex = new Texture("img/pig.png");
-//        Image pig_1 = new Image(pig_1_tex);
-//        pig_1.setScale(1f);
-//        pig_1.setSize(32, 32);
-//        pig_1.setPosition(500+9, 274);
-//        stage.addActor(pig_1);
-        SmallPig pig1= new SmallPig("img/pig.png", 32, 32, 500+9, 274, 1f, world);
-        MediumPig pig2= new MediumPig("img/pig.png", 32, 32, 590, 274, 1.35f, world);
-        stage.addActor(pig1.getImage());
-        stage.addActor(pig2.getImage());
-
-//        Texture pig_2_tex = new Texture("img/pig.png");
-//        Image pig_2 = new Image(pig_2_tex);
-//        pig_2.setScale(1.5f);
-//        pig_2.setSize(32, 32);
-//        pig_2.setPosition(600, 274);
-//        stage.addActor(pig_2);
-
-        BigPig pig3 = new BigPig("img/pig.png", 32, 32, 670+9, 274, 1.75f, world);
-        stage.addActor(pig3.getImage());
-//
-//        Texture pig_3_tex = new Texture("img/pig.png");
-//        Image pig_3 = new Image(pig_3_tex);
-//        pig_3.setScale(2f);
-//        pig_3.setSize(32, 32);
-//        pig_3.setPosition(700-9, 274);
-//        stage.addActor(pig_3);
-
+        r1=level.get_birds().get(0);
+        r1.setIs_bounce(false);
+        r1.set_jump(true);
+        catapult.loadBird(r1);
+        birdnum++;
 
         Button next_level = new Button(skin, "right");
         next_level.setPosition(viewport.getWorldWidth()-40, 10);
         next_level.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(1));
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(1, 3));
             }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 next_level.addAction(Actions.alpha(0.7f));
@@ -316,5 +233,14 @@ public class PlayScreen extends ScreenAdapter {
         return stage;
     }
 
+    public void calling_bird(int i){
+        Bird trial= level.get_birds().get(i);
+        if(catapult.isIs_empty()){
+            trial.setIs_bounce(false);
+            trial.set_jump(true);
+            catapult.loadBird(trial);
+        }
+        birdnum++;
+    }
 }
 

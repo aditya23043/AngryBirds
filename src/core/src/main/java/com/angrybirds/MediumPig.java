@@ -7,6 +7,7 @@ public class MediumPig extends Pig{
 
     public MediumPig(String levelpath, int width, int height, int x, int y, float scale, World world) {
         super(levelpath, width, height, x, y, scale, world);
+        int health=2;
     }
     @Override
     void takeDamage(int damage) {

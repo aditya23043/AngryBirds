@@ -2,11 +2,11 @@ package com.angrybirds;
 
 import com.badlogic.gdx.physics.box2d.World;
 
-class RedBird extends Bird {
+class YellowBird extends Bird {
     private int health=1;
 
-    public RedBird(int width, int height, int x, int y, float scale, World world, String name) {
-        super("img/red1.png", width, height, x, y, scale, world, name);
+    public YellowBird( int width, int height, int x, int y, float scale, World world, String name) {
+        super("img/yellow.png", width, height, x, y, scale, world, name);
     }
 
     @Override
