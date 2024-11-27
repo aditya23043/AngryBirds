@@ -16,8 +16,8 @@ class LevelTwo extends Level {
     ArrayList<Bird> birds;
     ArrayList<Block> blocks;
     World world;
-    int num_pigs=4;
-    int num_birds=5;
+    int num_pigs=3;
+    int num_birds=4;
 
     public LevelTwo(World world){
         super(world);
@@ -79,7 +79,6 @@ class LevelTwo extends Level {
         blocks.add(b4);
         blocks.add(b5);
         blocks.add(b6);
-        blocks.add(b7);
         blocks.add(b7);
         blocks.add(b8);
         blocks.add(b9);

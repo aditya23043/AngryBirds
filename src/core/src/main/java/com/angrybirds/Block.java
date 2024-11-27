@@ -51,6 +51,9 @@ public class Block extends Actor {
         else if(type_exp.equals("stone_rect_long")){
             tempo="img/stone_rect_long.png";
         }
+        else if(type_exp.equals("glass_square")){
+            tempo="img/glass_square.png";
+        }
         this.block_tex = new Texture(tempo);
         this.block_image = new Image(block_tex);
         this.setX(x);

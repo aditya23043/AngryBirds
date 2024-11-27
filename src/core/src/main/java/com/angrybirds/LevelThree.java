@@ -17,7 +17,7 @@ class LevelThree extends Level{
     ArrayList<Block> blocks;
     World world;
     int num_pigs=4;
-    int num_birds=5;
+    int num_birds=4;
 
     public LevelThree(World world){
         super(world);
@@ -48,35 +48,40 @@ class LevelThree extends Level{
     }
 
     public void add_pigs(){
-        SmallPig pig1= new SmallPig("img/pig.png", 32, 32, 500+28+20+5, 260, 1.075f, world);
-        MediumPig pig2= new MediumPig("img/pig.png", 32, 32, 670+10+18, 265, 1.27f, world);
-        BigPig pig3 = new BigPig("img/pig.png", 32, 32, 610, 380, 1.57f, world);
+        SmallPig pig1= new SmallPig("img/pig.png", 32, 32, 500+28+15, 275, 1.075f, world);
+        SmallPig pig2= new SmallPig("img/pig.png", 32, 32, 655, 250, 1.1f, world);
+        MediumPig pig3 = new MediumPig("img/pig.png", 32, 32, 764, 285, 1.27f, world);
+        BigPig pig4 = new BigPig("img/pig.png", 32, 32, 610+42, 340, 1.35f, world);
+        pigs.add(pig1);
+        pigs.add(pig2);
+        pigs.add(pig3);
+        pigs.add(pig4);
     }
 
     public void add_blocks(){
-        Block b1= new Block("wood_rect_med", 0.70f,550, 174, world, true, 90);
-        Block b2= new Block("wood_rect_med", 0.70f, 570, 174, world, true, 90);
-        Block b3= new Block("glass_rect_med",0.70f, 520, 230, world, true, 0);
-        Block b4= new Block("wood_rect_med", 0.70f,700, 174, world, true, 90);
-        Block b5= new Block("wood_rect_med", 0.70f, 720, 174, world, true, 90);
-        Block b6= new Block("glass_rect_med",0.70f, 670, 230, world, true, 0);
-        Block b7= new Block("glass_rect_med",0.90f, 524, 230, world, true, 90);
-        Block b9= new Block("glass_rect_med",0.90f, 596, 230, world, true, 90);
-        Block b8= new Block("glass_rect_med",0.90f, 675, 230, world, true, 90);
-        Block b10= new Block("glass_rect_med",0.90f, 749, 230, world, true, 90);
-        Block b11= new Block("stone_rect_long",0.7f, 480, 300, world, true, 0);
-        Block b12= new Block("stone_rect_long",0.7f, 635, 300, world, true, 0);
-        Block b13= new Block("wood_rect_small",0.8f, 565, 315, world, true, 90);
-        Block b14= new Block("wood_rect_small",0.8f, 685, 315, world, true, 90);
-        Block b15= new Block("stone_rect_long",0.8f, 540, 338, world, true, 0);
-        Block b16= new Block("stone_circle",0.35f, 500, 313, world, true, 0);
+        Block b1= new Block("stone_circle", 0.50f,571, 174, world, true, 90);
+        Block b2= new Block("glass_square", 0.70f, 562, 220, world, true, 90);
+        Block b3= new Block("wood_rect_med",0.70f, 520, 215, world, true, 0);
+        Block b4=new Block("wood_rect_med",0.70f, 520, 245, world, true, 0);
+        Block b5= new Block("glass_rect_med",0.70f, 580, 245, world, true, 90);
+        Block b6= new Block("glass_rect_med",0.70f, 524, 245, world, true, 90);
+        Block b7= new Block("stone_thick",0.60f, 660, 174, world, true, 90);
+        Block b8= new Block("stone_thick",0.60f, 686, 174, world, true, 90);
+        Block b9= new Block("glass_rect_med",0.70f, 640, 227, world, true, 90);
+        Block b10= new Block("glass_rect_med",0.70f, 690, 227, world, true, 90);
+        Block b11= new Block("wood_rect_med",0.85f, 625, 275, world, true, 0);
+        Block b12= new Block("wood_rect_small",0.8f, 665, 288, world, true, 90);
+        Block b13= new Block("wood_rect_med",0.85f, 625, 305, world, true, 0);
+        Block b14= new Block("stone_rect_long",0.85f, 740, 174, world, true, 90);
+        Block b15= new Block("wood_rect_med",0.85f, 738, 250, world, true, 0);
+        Block b16= new Block("wood_rect_med",0.85f, 738, 316, world, true, 0);
+        Block b17= new Block("stone_rect_long",0.85f, 817, 174, world, true, 90);
         blocks.add(b1);
         blocks.add(b2);
         blocks.add(b3);
         blocks.add(b4);
         blocks.add(b5);
         blocks.add(b6);
-        blocks.add(b7);
         blocks.add(b7);
         blocks.add(b8);
         blocks.add(b9);
@@ -87,6 +92,7 @@ class LevelThree extends Level{
         blocks.add(b14);
         blocks.add(b15);
         blocks.add(b16);
+        blocks.add(b17);
     }
 
     public ArrayList<Pig> get_pigs(){
