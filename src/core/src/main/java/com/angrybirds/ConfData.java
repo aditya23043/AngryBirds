@@ -20,33 +20,40 @@ public class ConfData implements Serializable {
 
     // attribs to store
     private String username;
-    private int score;
+    private int cur_score;
+    private int level_num;
+    private int num_birds_left;
+    private ArrayList<String> pigs_left;
+    private ArrayList<String> blocks_left;
+
+    // logic for saving data since box2d objects are not serializable
+    // note: we could have saved them using transient and implementing our own read and write methods but it would take longer and similar could be acheived without storing the whole object
+    // since we have birds list in every level and since they go one by one (linearly), storing just the num of birds left would be the most simplistic way to load the game from the conf file
+    // for pigs and birds, we have distinct TYPES of each in every level so we store whatever type is left in an arraylist and render only those when loading
+
     private File conf_file;
 
-    private int level_num;
-    private ArrayList<Pig> pigs;
-    private ArrayList<Bird> birds;
-    private ArrayList<Block> blocks;
-    private World world;
-    private int num_pigs;
-    private int num_birds;
-
     ConfData(File conf_file) {
-        this.username = null;
-        this.score = 0;
         this.conf_file = conf_file;
     }
 
-    public void write(String _username, int _score) {
-        this.username = _username;
-        this.score = _score;
+    public void add(String username, int cur_score, int level_num, int num_birds_left, ArrayList<String> pigs_left, ArrayList<String> blocks_left) {
+
+        this.username = username;
+        this.cur_score = cur_score;
+        this.level_num = level_num;
+        this.num_birds_left = num_birds_left;
+        this.pigs_left = pigs_left;
+        this.blocks_left = blocks_left;
+
         conf_array.add(this);
+    }
+
+    public void write() {
 
         try (FileOutputStream file = new FileOutputStream(this.conf_file, false);
                 ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(ConfData.conf_array);
-            file.close();
-            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,8 +65,6 @@ public class ConfData implements Serializable {
             ArrayList<ConfData> _arr = (ArrayList<ConfData>) in.readObject();
             for (ConfData _conf_data : _arr) {
             }
-            file.close();
-            in.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
