@@ -2,7 +2,16 @@ package com.angrybirds;
 
 import com.badlogic.gdx.physics.box2d.World;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.World;
+
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Level{
 
@@ -76,5 +85,27 @@ public class Level{
 
     public int getWin_score(){
         return win_score;
+    }
+
+
+    public void save(String text_field) {
+
+        int returnVal;
+        JFileChooser chooser;
+        do {
+            chooser = new JFileChooser(Gdx.files.internal("").file().getAbsolutePath());
+            chooser.setFileFilter(new FileNameExtensionFilter("Angry Birds Config File", "dat"));
+            returnVal = chooser.showOpenDialog(null);
+        } while (returnVal != JFileChooser.APPROVE_OPTION);
+
+        ConfData conf_data = new ConfData(chooser.getSelectedFile().getAbsoluteFile());
+        ArrayList<String> blocks_left = new ArrayList<>();
+        int pigs_left = pigs.size();
+        for (Block block : blocks) {
+            blocks_left.add(block.getName());
+        }
+        conf_data.add(text_field, 0, level_num, birds.size(), pigs_left, blocks_left);
+        conf_data.write();
+
     }
 }

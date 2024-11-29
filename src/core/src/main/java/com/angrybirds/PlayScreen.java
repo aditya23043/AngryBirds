@@ -1,11 +1,18 @@
 package com.angrybirds;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.util.ArrayList;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -35,7 +42,7 @@ public class PlayScreen extends ScreenAdapter {
     private int birdnum = 0;
     private Catapult catapult;
     private Bird r1;
-    private Level level;
+    private Level level = new LevelOne(world);
     private ArrayList<Body> bodies_list;
     private GameContactListener contactListener;
     private int level_num;
@@ -76,6 +83,48 @@ public class PlayScreen extends ScreenAdapter {
         world.setContactListener(contactListener);
     }
 
+    public PlayScreen(Game game, int num, int num_birds_left, int pigs_left, ArrayList<String> blocks_left) {
+        this.game=game;
+        this.stage=new Stage(new ExtendViewport(960, 540));
+        this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
+        world = new World(new Vector2(0, -9.8f), true);
+        debug2D = new Box2DDebugRenderer();
+        this.level_num=num;
+        System.out.println(level_num);
+        this.pauseScreen=new PauseScreen(game, this, skin, level_num);
+        if(level_num==1){
+            LevelOne levelOne= new LevelOne(world);
+            levelOne.add_birds(num_birds_left);
+            levelOne.add_pigs(pigs_left);
+            levelOne.add_blocks(blocks_left);
+            this.level= levelOne;
+            if(level==null){
+                System.out.println("Here");
+            }
+            else{
+                System.out.println("Here now");
+            }
+        }
+        else if(level_num==2){
+            LevelTwo levelOne= new LevelTwo(world);
+            levelOne.add_birds();
+            levelOne.add_pigs();
+            levelOne.add_blocks();
+            this.level= levelOne;
+        }
+        else if(level_num==3){
+            LevelThree levelOne= new LevelThree(world);
+            levelOne.add_birds();
+            levelOne.add_pigs();
+            levelOne.add_blocks();
+            this.level= levelOne;
+        }
+        this.bodies_list= new ArrayList<>();
+        contactListener = new GameContactListener(bodies_list);
+        world.setContactListener(contactListener);
+    }
+
+
     @Override
     public void show() {
         viewport = new ExtendViewport(960, 540);
@@ -112,6 +161,94 @@ public class PlayScreen extends ScreenAdapter {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 pause_button.addAction(Actions.alpha(1f));
+            }
+        });
+
+        // load game button
+        ImageButton load_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/load.png"))));
+        load_button.setPosition(10+50+10, viewport.getWorldHeight()-60);
+        load_button.setSize(50, 50);
+
+        stage.addActor(load_button);
+
+        load_button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+
+
+                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/angrybirds-regular.ttf"));
+                FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+                // parameter.spaceX = -1;
+                parameter.size = 30;
+                parameter.borderWidth = 1;
+                parameter.color = Color.WHITE;
+                parameter.borderColor = Color.BLACK;
+                parameter.shadowOffsetX = 3;
+                parameter.shadowOffsetY = 3;
+                parameter.shadowColor = new Color(0, 0f, 0, 0.75f);
+                BitmapFont _font = generator.generateFont(parameter);
+                LabelStyle label_style = new LabelStyle(_font, Color.WHITE);
+
+                FreeTypeFontGenerator generator_2 = new FreeTypeFontGenerator(Gdx.files.internal("fonts/angrybirds-regular.ttf"));
+                FreeTypeFontGenerator.FreeTypeFontParameter parameter_2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+                // parameter.spaceX = -1;
+                parameter_2.size = 20;
+                parameter_2.borderWidth = 1;
+                parameter_2.color = Color.WHITE;
+                parameter_2.borderColor = Color.BLACK;
+                parameter_2.shadowOffsetX = 3;
+                parameter_2.shadowOffsetY = 3;
+                parameter_2.shadowColor = new Color(0, 0f, 0, 0.75f);
+                BitmapFont _font_2 = generator_2.generateFont(parameter);
+                LabelStyle label_style_normal = new LabelStyle(_font, Color.WHITE);
+
+                Image translucent_bg = assetsManager.loadImage("img/translucent.png");
+                Image pause_menu_bg = assetsManager.loadImage("img/pause_bg.png");
+                pause_menu_bg.setSize(300, 400+10+10+7);
+                pause_menu_bg.setPosition(Gdx.graphics.getWidth()/2-150, Gdx.graphics.getHeight()/2-150-20-7-20);
+
+                Label title = new Label("Save Game", label_style);
+                title.setPosition((Gdx.graphics.getWidth()-title.getWidth())/2, Gdx.graphics.getHeight()/2+165);
+
+                Label username = new Label("Username:", label_style_normal);
+                username.setPosition((Gdx.graphics.getWidth()-title.getWidth())/2-50, Gdx.graphics.getHeight()/2+50);
+
+                TextField text_field = new TextField("", skin);
+                text_field.setWidth(200);
+                text_field.setHeight(50);
+                text_field.setPosition((Gdx.graphics.getWidth()-title.getWidth())/2-50, Gdx.graphics.getHeight()/2);
+                text_field.setAlignment(Align.center);
+
+                ImageButton select_file = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/submit.png"))));
+                select_file.setSize(180, 40);
+                select_file.setPosition((Gdx.graphics.getWidth()-select_file.getWidth())/2-50, Gdx.graphics.getHeight()/2-100);
+                select_file.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        level.save(text_field.getText());
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener(), level_num));
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        select_file.addAction(Actions.alpha(0.7f));
+                    }
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        select_file.addAction(Actions.alpha(1f));
+                    }
+                });
+
+                stage.addActor(translucent_bg);
+                stage.addActor(pause_menu_bg);
+                stage.addActor(title);
+                stage.addActor(username);
+                stage.addActor(text_field);
+                stage.addActor(select_file);
+            }
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                load_button.addAction(Actions.alpha(0.7f));
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                load_button.addAction(Actions.alpha(1f));
             }
         });
 

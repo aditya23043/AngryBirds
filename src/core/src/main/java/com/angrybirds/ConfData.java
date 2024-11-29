@@ -23,7 +23,7 @@ public class ConfData implements Serializable {
     private int cur_score;
     private int level_num;
     private int num_birds_left;
-    private ArrayList<String> pigs_left;
+    private int pigs_left;
     private ArrayList<String> blocks_left;
 
     // logic for saving data since box2d objects are not serializable
@@ -37,7 +37,7 @@ public class ConfData implements Serializable {
         this.conf_file = conf_file;
     }
 
-    public void add(String username, int cur_score, int level_num, int num_birds_left, ArrayList<String> pigs_left, ArrayList<String> blocks_left) {
+    public void add(String username, int cur_score, int level_num, int num_birds_left, int pigs_left, ArrayList<String> blocks_left) {
 
         this.username = username;
         this.cur_score = cur_score;
@@ -77,5 +77,9 @@ public class ConfData implements Serializable {
 
     public String get_username() {
         return this.username;
+    }
+
+    public int get_level_num() {
+        return level_num;
     }
 }
