@@ -48,11 +48,12 @@ public class PlayScreen extends ScreenAdapter {
     private int level_num;
     private BitmapFont main_title_font;
     private Label.LabelStyle style_h1;
-    private int score = 0; // Add score variable
-    private Label scoreLabel; // Add score label
+    private static int score = 0; // Add score variable
+    private static Label scoreLabel; // Add score label
 
     public PlayScreen(Game game, int num) {
         this.game = game;
+        this.score=0;
         this.stage = new Stage(new ExtendViewport(960, 540));
         this.skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         world = new World(new Vector2(0, -9.8f), true);
@@ -326,16 +327,15 @@ public class PlayScreen extends ScreenAdapter {
         catapult.loadBird(r1);
         birdnum++;
 
-        // Score display
-        scoreLabel = new Label("Score: " + score, skin);
-        scoreLabel.setPosition(viewport.getWorldWidth() - 120, viewport.getWorldHeight() - 30);
+        scoreLabel = new Label("Score: " + score, style_h1);
+        scoreLabel.setPosition(viewport.getWorldWidth() - 200, viewport.getWorldHeight() - 60);
         stage.addActor(scoreLabel);
 
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void incrementScore() {
-        score++;
+    public static void incrementScore(){
+        score+=700;
         scoreLabel.setText("Score: " + score);
     }
 
@@ -364,6 +364,7 @@ public class PlayScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 200f, 6, 2);
+        checkGameOver();
         stage.act(delta);
         stage.draw();
     }
