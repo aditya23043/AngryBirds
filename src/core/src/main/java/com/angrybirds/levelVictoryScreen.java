@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class levelVictoryScreen extends ScreenAdapter {
 
     int level_num;
+    int num_gold_star;
+    int num_silver_star=3;
 
     private Stage stage;
     private Viewport viewport;
@@ -31,13 +33,14 @@ public class levelVictoryScreen extends ScreenAdapter {
     private Texture bg_img_texture;
     private Image bg_img;
 
-    levelVictoryScreen(int level_num) {
+    levelVictoryScreen(int level_num, int num_gold_star){
         this.level_num = level_num;
+        this.num_gold_star = num_gold_star;
+        this.num_silver_star = 3 - num_gold_star;
     }
 
     @Override
-    public void show() {
-
+    public void show(){
         // common inits
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
@@ -52,6 +55,23 @@ public class levelVictoryScreen extends ScreenAdapter {
         assetsManager.backgroundImage("img/victory_2.jpg");
         assetsManager.backgroundImage.setSize(960, 540);
         stage.addActor(assetsManager.backgroundImage);
+        Texture temp= new Texture(Gdx.files.internal("img/star.png"));
+        Image gold_star1= new Image(temp);
+        Image gold_star2= new Image(temp);
+        Image gold_star3= new Image(temp);
+        Texture temp2= new Texture(Gdx.files.internal("img/star_bw.png"));
+        Image silver_star1= new Image(temp2);
+        Image silver_star2= new Image(temp2);
+        Image silver_star3= new Image(temp2);
+        silver_star3.setSize(183, 165);
+        silver_star3.setPosition(400, 295);
+        //silver_star3.setRotation(92);
+        stage.addActor(silver_star3);
+
+//        for(int i=0; i<num_silver_star; i++){
+//
+//        }
+
 
         ImageButton next_level_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/next_level.png"))));
         next_level_button.setSize(60, 60);
@@ -138,6 +158,8 @@ public class levelVictoryScreen extends ScreenAdapter {
         stage.draw();
 
     }
+
+
 
 
 

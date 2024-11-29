@@ -79,13 +79,16 @@ public abstract class Bird extends Actor {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2f / PIXELS_PER_METER, height / 2f / PIXELS_PER_METER);
 
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.restitution = 0.5f;
+        FixtureDef birdFixtureDef = new FixtureDef();
+        birdFixtureDef.shape = shape;
+        birdFixtureDef.density = 1.0f;
+        birdFixtureDef.restitution = 0.5f;
+        birdFixtureDef.filter.categoryBits = 0x0002;  // Bird category
+        birdFixtureDef.filter.maskBits = 0x0001;
 
-        body.createFixture(fixtureDef);
+        body.createFixture(birdFixtureDef);
         shape.dispose();
+        // Bird collides with Blocks and other Birds
     }
 
     @Override

@@ -26,6 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class PlayScreen extends ScreenAdapter {
 
     private AssetsManager assetsManager;
@@ -46,6 +48,8 @@ public class PlayScreen extends ScreenAdapter {
     private RedBird r3;
     private RedBird r4;
     private Level level;
+    private ArrayList<Body> bodies_list;
+    private GameContactListener contactListener;
 
 
     public PlayScreen(Game game){
@@ -61,6 +65,9 @@ public class PlayScreen extends ScreenAdapter {
         levelOne.add_pigs();
         levelOne.add_blocks();
         this.level= levelOne;
+        this.bodies_list= new ArrayList<>();
+        contactListener = new GameContactListener(bodies_list);
+        world.setContactListener(contactListener);
     }
 
 
@@ -154,16 +161,19 @@ public class PlayScreen extends ScreenAdapter {
 
         for(Block block: level.get_blocks()){
             stage.addActor(block);
+            add_bodies(block.body);
         }
 
         System.out.println("Completed");
 
         for(Bird bird: level.get_birds()){
             stage.addActor(bird);
+            add_bodies(bird.body);
         }
 
         for(Pig pig: level.get_pigs()){
             stage.addActor(pig);
+            add_bodies(pig.body);
         }
 
         r1=level.get_birds().get(0);
@@ -177,7 +187,7 @@ public class PlayScreen extends ScreenAdapter {
         next_level.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(3));
+                //((Game) Gdx.app.getApplicationListener()).setScreen(new levelVictoryScreen(3));
             }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 next_level.addAction(Actions.alpha(0.7f));
@@ -241,6 +251,14 @@ public class PlayScreen extends ScreenAdapter {
             catapult.loadBird(trial);
         }
         birdnum++;
+    }
+
+    public void add_bodies(Body body){
+        bodies_list.add(body);
+    }
+
+    public ArrayList<Body> get_bodies_list(){
+        return bodies_list;
     }
 }
 
