@@ -77,6 +77,9 @@ public class levelVictoryScreen extends ScreenAdapter {
 
         stage.addActor(next_level_button);
         next_level_button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener(), (level_num+1)%3+1));
+            }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 next_level_button.addAction(Actions.alpha(0.7f));
             }
