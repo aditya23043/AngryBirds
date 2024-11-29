@@ -140,6 +140,10 @@ public class LoadGame extends ScreenAdapter {
                 submit_button.setSize(270, 60);
                 submit_button.setPosition((960-submit_button.getWidth())/2, 540/2-150);
 
+                Label bottom_label = new Label(" huh", label_style);
+                bottom_label.setPosition((960-bottom_label.getWidth())/2, 540/2-200);
+                stage.addActor(bottom_label);
+
                 submit_button.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -148,7 +152,18 @@ public class LoadGame extends ScreenAdapter {
                                 // auth for config done
                                 break;
                             }
+                            else if (_conf_data.equals(conf_data.get_list().get(conf_data.get_list().size() - 1))) {
+                                bottom_label.setText("No user with that username found in this config file!");
+                            }
                         }
+                    }
+                    @Override
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        submit_button.addAction(Actions.alpha(0.7f));
+                    }
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        submit_button.addAction(Actions.alpha(1f));
                     }
                 });
 
