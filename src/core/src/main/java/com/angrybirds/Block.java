@@ -69,6 +69,7 @@ public class Block extends Actor {
         blockFixtureDef.shape = shape;
         blockFixtureDef.density = 1.0f;
         blockFixtureDef.restitution = 0.5f;
+        blockFixtureDef.friction = 0.5f;
         blockFixtureDef.filter.categoryBits = 0x0001;
         blockFixtureDef.filter.maskBits = 0x0002;
 

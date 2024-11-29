@@ -30,10 +30,12 @@ public class LevelFailed implements Screen {
     private Game game;
     private Viewport viewport;
     BitmapFont main_title_font;
+    private int level_num;
 
-    public LevelFailed(Game game, Skin skin, PlayScreen playScreen){
+    public LevelFailed(Game game, Skin skin, PlayScreen playScreen, int num){
         this.game = game;
         this.skin = skin;
+        this.level_num=num;
         viewport=new ExtendViewport(960, 540);
         viewport.apply();
         stage=new Stage(viewport);
@@ -99,7 +101,7 @@ public class LevelFailed implements Screen {
 
         restart.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new PlayScreen(game, level_num));
             }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 restart.addAction(Actions.alpha(0.7f));

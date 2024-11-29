@@ -36,7 +36,6 @@ public class levelVictoryScreen extends ScreenAdapter {
     levelVictoryScreen(int level_num, int num_gold_star){
         this.level_num = level_num;
         this.num_gold_star = num_gold_star;
-        this.num_silver_star = 3 - num_gold_star;
     }
 
     @Override
@@ -49,10 +48,14 @@ public class levelVictoryScreen extends ScreenAdapter {
         AssetsManager assetsManager = new AssetsManager();
         assetsManager.load_font();
         assetsManager.config(skin);
-
-        // credits not needed as mentioned in the comments
-        // https://in.pinterest.com/pin/255720085081889550/
-        assetsManager.backgroundImage("img/victory_2.jpg");
+        String tempo="img/victory_2.jpg";
+        if(num_gold_star==1){
+            tempo="img/victory_1.jpg";
+        }
+        if(num_gold_star==1){
+            tempo="img/victory_3.jpg";
+        }
+        assetsManager.backgroundImage(tempo);
         assetsManager.backgroundImage.setSize(960, 540);
         stage.addActor(assetsManager.backgroundImage);
         Texture temp= new Texture(Gdx.files.internal("img/star.png"));
@@ -67,11 +70,6 @@ public class levelVictoryScreen extends ScreenAdapter {
         silver_star3.setPosition(400, 295);
         //silver_star3.setRotation(92);
         stage.addActor(silver_star3);
-
-//        for(int i=0; i<num_silver_star; i++){
-//
-//        }
-
 
         ImageButton next_level_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/next_level.png"))));
         next_level_button.setSize(60, 60);
@@ -96,7 +94,7 @@ public class levelVictoryScreen extends ScreenAdapter {
         replay_level_button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener()));
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener(), level_num));
             }
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 replay_level_button.addAction(Actions.alpha(0.7f));
@@ -126,23 +124,23 @@ public class levelVictoryScreen extends ScreenAdapter {
             }
         });
 
-        Button next_level = new Button(skin, "right");
-        next_level.setPosition(viewport.getWorldWidth()-40, 10);
-        next_level.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                PlayScreen playScreen = new PlayScreen((Game)Gdx.app.getApplicationListener());
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelFailed((Game)Gdx.app.getApplicationListener(), skin, playScreen));
-            }
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                next_level.addAction(Actions.alpha(0.7f));
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                next_level.addAction(Actions.alpha(1f));
-            }
-        });
-        stage.addActor(next_level);
+//        Button next_level = new Button(skin, "right");
+//        next_level.setPosition(viewport.getWorldWidth()-40, 10);
+//        next_level.addListener(new ClickListener(){
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                PlayScreen playScreen = new PlayScreen((Game)Gdx.app.getApplicationListener());
+//                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelFailed((Game)Gdx.app.getApplicationListener(), skin, playScreen));
+//            }
+//            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+//                next_level.addAction(Actions.alpha(0.7f));
+//            }
+//            @Override
+//            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+//                next_level.addAction(Actions.alpha(1f));
+//            }
+//        });
+//        stage.addActor(next_level);
 
         Gdx.input.setInputProcessor(stage);
 

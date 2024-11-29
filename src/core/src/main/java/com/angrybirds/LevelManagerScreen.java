@@ -115,17 +115,15 @@ public class LevelManagerScreen extends ScreenAdapter {
             if(is_upgraded){
                 Stack stack = new Stack();
                 stack.add(levelbutton);
-                // stack.add(level_num);
 
-                // Optional: Center the label on the button
-                // stack.setSize(80,80);
                 table.add(stack).size(150,150).pad(20);
 
             if(is_upgraded){
+                int finalI = i;
                 stack.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        game.setScreen(new PlayScreen(game));
+                        game.setScreen(new PlayScreen(game, finalI +1));
                         // game.setScreen(new LevelOne());
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {

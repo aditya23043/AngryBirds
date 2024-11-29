@@ -5,9 +5,9 @@ import java.util.List;
 
 public class GameContactListener implements ContactListener {
 
-    private final List<Body> allBodies;  // List of bodies to iterate through
+    private List<Body> allBodies;  // List of bodies to iterate through
 
-    public GameContactListener(List<Body> allBodies) {
+    public GameContactListener(List<Body> allBodies){
         this.allBodies = allBodies;  // Pass the list from the PlayScreen or Game class
     }
 

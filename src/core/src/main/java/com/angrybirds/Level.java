@@ -13,6 +13,11 @@ public class Level{
     private World world;
     private int num_pigs;
     private int num_birds;
+    private int curr_score=0;
+    private int win_score;
+    private int one_star;
+    private int two_star;
+    private int three_star;
 
     public Level(World world){
         this.pigs = new ArrayList<>();
@@ -41,4 +46,35 @@ public class Level{
         return blocks;
     }
 
+    public void setWin_score(){
+
+    }
+
+    public void setOne_star(){
+
+    }
+
+    public void setTwo_star(){
+
+    }
+
+    public void setThree_star(){
+
+    }
+
+    public int getOne_star() {
+        return one_star;
+    }
+
+    public int getTwo_star() {
+        return two_star;
+    }
+
+    public int getThree_star(){
+        return three_star;
+    }
+
+    public int getWin_score(){
+        return win_score;
+    }
 }

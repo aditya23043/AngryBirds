@@ -18,6 +18,11 @@ class LevelTwo extends Level {
     World world;
     int num_pigs=3;
     int num_birds=4;
+    int win_score=3500;
+    int one_star=3600;
+    int two_star=3800;
+    int three_star=4000;
+
 
     public LevelTwo(World world){
         super(world);
@@ -30,6 +35,10 @@ class LevelTwo extends Level {
         }
         int num_pigs=3;
         int num_birds=5;
+        int win_score=3500;
+        int one_star=3600;
+        int two_star=3800;
+        int three_star=4000;
     }
 
     public void add_birds(){
@@ -101,6 +110,22 @@ class LevelTwo extends Level {
 
     public ArrayList<Bird> get_birds() {
         return birds;
+    }
+
+    public int getOne_star() {
+        return one_star;
+    }
+
+    public int getTwo_star() {
+        return two_star;
+    }
+
+    public int getThree_star(){
+        return three_star;
+    }
+
+    public int getWin_score(){
+        return win_score;
     }
 
 

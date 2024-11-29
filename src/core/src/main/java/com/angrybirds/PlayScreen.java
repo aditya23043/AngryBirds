@@ -50,31 +50,50 @@ public class PlayScreen extends ScreenAdapter {
     private Level level;
     private ArrayList<Body> bodies_list;
     private GameContactListener contactListener;
+    private int level_num;
 
 
-    public PlayScreen(Game game){
+    public PlayScreen(Game game, int num){
         this.game=game;
         this.stage=new Stage(new ExtendViewport(960, 540));
         this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
-        this.pauseScreen=new PauseScreen(game, this, skin);
+        this.pauseScreen=new PauseScreen(game, this, skin, level_num);
         world = new World(new Vector2(0, -9.8f), true);  // Gravity for Box2D world
         debug2D = new Box2DDebugRenderer();
-        int level_num=1;
-        LevelTwo levelOne= new LevelTwo(world);
-        levelOne.add_birds();
-        levelOne.add_pigs();
-        levelOne.add_blocks();
-        this.level= levelOne;
+        int level_num=num;
+        if(level_num==1){
+            LevelOne levelOne= new LevelOne(world);
+            levelOne.add_birds();
+            levelOne.add_pigs();
+            levelOne.add_blocks();
+            this.level= levelOne;
+        }
+        else if(level_num==2){
+            LevelTwo levelOne= new LevelTwo(world);
+            levelOne.add_birds();
+            levelOne.add_pigs();
+            levelOne.add_blocks();
+            this.level= levelOne;
+        }
+        else if(level_num==3){
+            LevelThree levelOne= new LevelThree(world);
+            levelOne.add_birds();
+            levelOne.add_pigs();
+            levelOne.add_blocks();
+            this.level= levelOne;
+        }
         this.bodies_list= new ArrayList<>();
         contactListener = new GameContactListener(bodies_list);
         world.setContactListener(contactListener);
     }
 
-
     @Override
     public void show() {
         viewport = new ExtendViewport(960, 540);
         stage = new Stage(viewport);
+
+        //create();
+        //Wall wall= new Wall(960, 140, 0, 0, world);
 
         assetsManager = new AssetsManager();
         assetsManager.load_font();
@@ -111,7 +130,7 @@ public class PlayScreen extends ScreenAdapter {
 
 
         // level header
-        Image level_title = assetsManager.loadImage("img/level_one_text.png");
+        Label level_title = new Label("Level"+level_num, skin);
         level_title.setScale(0.5f);
         level_title.setPosition(viewport.getWorldWidth()/2-70, viewport.getWorldHeight()-60);
         stage.addActor(level_title);
@@ -197,7 +216,7 @@ public class PlayScreen extends ScreenAdapter {
                 next_level.addAction(Actions.alpha(1f));
             }
         });
-        stage.addActor(next_level);
+        //stage.addActor(next_level);
 
         Gdx.input.setInputProcessor(stage);
 
