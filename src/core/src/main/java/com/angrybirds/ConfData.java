@@ -1,6 +1,7 @@
 package com.angrybirds;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.World;
 
 
 public class ConfData implements Serializable {
@@ -19,9 +21,17 @@ public class ConfData implements Serializable {
     // attribs to store
     private String username;
     private int score;
-    private String conf_file;
+    private File conf_file;
 
-    ConfData(String conf_file) {
+    private int level_num;
+    private ArrayList<Pig> pigs;
+    private ArrayList<Bird> birds;
+    private ArrayList<Block> blocks;
+    private World world;
+    private int num_pigs;
+    private int num_birds;
+
+    ConfData(File conf_file) {
         this.username = null;
         this.score = 0;
         this.conf_file = conf_file;
@@ -57,5 +67,13 @@ public class ConfData implements Serializable {
             e.printStackTrace();
         }
 
+    }
+
+    public ArrayList<ConfData> get_list() {
+        return this.conf_array;
+    }
+
+    public String get_username() {
+        return this.username;
     }
 }
