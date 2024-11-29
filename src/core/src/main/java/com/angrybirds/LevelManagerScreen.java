@@ -119,11 +119,13 @@ public class LevelManagerScreen extends ScreenAdapter {
                 table.add(stack).size(150,150).pad(20);
 
             if(is_upgraded){
-                int finalI = i;
+                int finalI = i+1;
+                System.out.println(finalI);
                 stack.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        game.setScreen(new PlayScreen(game, finalI +1));
+                        System.out.println("Calling");
+                        game.setScreen(new PlayScreen(game, finalI));
                         // game.setScreen(new LevelOne());
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {

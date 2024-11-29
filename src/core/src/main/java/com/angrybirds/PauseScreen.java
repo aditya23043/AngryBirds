@@ -29,9 +29,10 @@ public class PauseScreen implements Screen {
     private Image volume;
     private int level_num;
 
-    public PauseScreen(Game game, PlayScreen playScreen, Skin skin, int num) {
+    public PauseScreen(Game game, PlayScreen playScreen, Skin skin, int num){
         this.game = game;
         this.playScreen = playScreen;
+        System.out.println("number is "+num);
         this.level_num=num;
         this.stage = new Stage(new ScreenViewport());
         this.pauseWindow = new Window("Paused", skin, "default");
@@ -90,6 +91,7 @@ public class PauseScreen implements Screen {
         restart_button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("this is"+level_num);
                 game.setScreen(new PlayScreen(game, level_num)); // Restart the game
             }
         });

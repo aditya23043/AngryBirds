@@ -44,29 +44,35 @@ public class PlayScreen extends ScreenAdapter {
     private int birdnum=0;
     private Catapult catapult;
     private Bird r1;
-    private RedBird r2;
-    private RedBird r3;
-    private RedBird r4;
     private Level level;
     private ArrayList<Body> bodies_list;
     private GameContactListener contactListener;
     private int level_num;
+    private BitmapFont main_title_font;
+    private Label.LabelStyle style_h1;
 
 
     public PlayScreen(Game game, int num){
         this.game=game;
         this.stage=new Stage(new ExtendViewport(960, 540));
         this.skin=new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
-        this.pauseScreen=new PauseScreen(game, this, skin, level_num);
-        world = new World(new Vector2(0, -9.8f), true);  // Gravity for Box2D world
+        world = new World(new Vector2(0, -9.8f), true);
         debug2D = new Box2DDebugRenderer();
-        int level_num=num;
+        this.level_num=num;
+        System.out.println(level_num);
+        this.pauseScreen=new PauseScreen(game, this, skin, level_num);
         if(level_num==1){
             LevelOne levelOne= new LevelOne(world);
             levelOne.add_birds();
             levelOne.add_pigs();
             levelOne.add_blocks();
             this.level= levelOne;
+            if(level==null){
+                System.out.println("Here");
+            }
+            else{
+                System.out.println("Here now");
+            }
         }
         else if(level_num==2){
             LevelTwo levelOne= new LevelTwo(world);
@@ -128,9 +134,14 @@ public class PlayScreen extends ScreenAdapter {
             }
         });
 
+        style_h1 = new Label.LabelStyle();
+        main_title_font = assetsManager.font_set("fonts/angrybirds-regular.ttf", 42, Color.WHITE, Color.BROWN, 3, 3);
+        style_h1.font = main_title_font;
+        style_h1.fontColor = Color.WHITE;
+
 
         // level header
-        Label level_title = new Label("Level"+level_num, skin);
+        Label level_title = new Label("Level  "+level_num, style_h1);
         level_title.setScale(0.5f);
         level_title.setPosition(viewport.getWorldWidth()/2-70, viewport.getWorldHeight()-60);
         stage.addActor(level_title);
