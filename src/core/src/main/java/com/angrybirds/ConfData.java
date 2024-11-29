@@ -57,9 +57,6 @@ public class ConfData implements Serializable {
                 ObjectInputStream in = new ObjectInputStream(file)) {
             ArrayList<ConfData> _arr = (ArrayList<ConfData>) in.readObject();
             for (ConfData _conf_data : _arr) {
-                System.out.println(_conf_data.username);
-                System.out.println(_conf_data.score);
-                System.out.println();
             }
             file.close();
             in.close();
