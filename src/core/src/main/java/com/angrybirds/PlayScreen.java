@@ -340,20 +340,22 @@ public class PlayScreen extends ScreenAdapter {
     }
 
     public void checkGameOver() {
+        int count = 0;
         boolean allPigsDead = true;
         for (Pig pig : level.get_pigs()) {
             if (!pig.isDead()) {
+                count++;
                 allPigsDead = false;
                 break;
             }
         }
+        System.out.println(count);
 
         boolean allBirdsUsed = birdnum >= level.get_birds().size();
 
         if (allPigsDead){
             game.setScreen(new levelVictoryScreen(level_num, 2));
         }
-
         if(allBirdsUsed && !allPigsDead){
             game.setScreen(new LevelFailed(game, skin,this, level_num));
         }

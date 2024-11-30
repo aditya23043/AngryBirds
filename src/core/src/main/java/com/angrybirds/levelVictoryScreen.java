@@ -58,18 +58,6 @@ public class levelVictoryScreen extends ScreenAdapter {
         assetsManager.backgroundImage(tempo);
         assetsManager.backgroundImage.setSize(960, 540);
         stage.addActor(assetsManager.backgroundImage);
-        Texture temp= new Texture(Gdx.files.internal("img/star.png"));
-        Image gold_star1= new Image(temp);
-        Image gold_star2= new Image(temp);
-        Image gold_star3= new Image(temp);
-        Texture temp2= new Texture(Gdx.files.internal("img/star_bw.png"));
-        Image silver_star1= new Image(temp2);
-        Image silver_star2= new Image(temp2);
-        Image silver_star3= new Image(temp2);
-        silver_star3.setSize(183, 165);
-        silver_star3.setPosition(400, 295);
-        //silver_star3.setRotation(92);
-        stage.addActor(silver_star3);
 
         ImageButton next_level_button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/next_level.png"))));
         next_level_button.setSize(60, 60);

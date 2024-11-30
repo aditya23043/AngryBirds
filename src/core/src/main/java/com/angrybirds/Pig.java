@@ -31,6 +31,7 @@ public abstract class Pig extends Actor {
         this.width = width;
         this.height = height;
         this.position = new Vector2(x, y);
+        this.is_dead = false;
         pigImage.setScale(scale);
         pigImage.setSize(width * scale, height * scale);
         boolean first_attempt=false;
@@ -81,9 +82,10 @@ public abstract class Pig extends Actor {
         syncWithPhysics();
 
         if (isOutOfBounds()) {
-            is_dead=true;
+            this.is_dead=true;
             //System.out.println("Pig is out of bounds and dies!");
             if(!first_attempt){
+                this.is_dead = true;
                 PlayScreen.incrementScore();
                 first_attempt=true;
             }

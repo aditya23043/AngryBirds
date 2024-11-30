@@ -16,7 +16,7 @@ public class MediumPig extends Pig{
 
     @Override
     boolean isDead() {
-        return false;
+        return this.is_dead;
     }
 
     @Override

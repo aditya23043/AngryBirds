@@ -16,7 +16,7 @@ public class BigPig extends Pig{
 
     @Override
     public boolean isDead() {
-        return false;
+        return is_dead;
     }
 
     @Override
