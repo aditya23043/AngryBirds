@@ -19,9 +19,10 @@ public abstract class Pig extends Actor {
     protected static final float PIXELS_PER_METER = 100f;
     protected Vector2 position;
     boolean is_dead;
-    PlayScreen playScreen;
+    boolean first_attempt;
 
-    public Pig(String texturePath, int width, int height, int x, int y, float scale, World world, PlayScreen play) {
+
+    public Pig(String texturePath, int width, int height, int x, int y, float scale, World world) {
         this.world = world;
         this.pigTexture = new Texture(texturePath);
         this.pigImage = new Image(pigTexture);
@@ -30,9 +31,11 @@ public abstract class Pig extends Actor {
         this.width = width;
         this.height = height;
         this.position = new Vector2(x, y);
+        this.is_dead = false;
         pigImage.setScale(scale);
         pigImage.setSize(width * scale, height * scale);
-        this.playScreen=play;
+        boolean first_attempt=false;
+        //this.playScreen=play;
 
         initializePhysics(x / PIXELS_PER_METER, y / PIXELS_PER_METER);
     }
@@ -79,9 +82,14 @@ public abstract class Pig extends Actor {
         syncWithPhysics();
 
         if (isOutOfBounds()) {
-            is_dead=true;
-            System.out.println("Pig is out of bounds and dies!");
-            playScreen.incrementScore();
+            this.is_dead=true;
+            //System.out.println("Pig is out of bounds and dies!");
+            if(!first_attempt){
+                this.is_dead = true;
+                PlayScreen.incrementScore();
+                first_attempt=true;
+            }
+
         }
     }
 

@@ -149,6 +149,7 @@ public class LoadGame extends ScreenAdapter {
                         for (ConfData _conf_data : conf_data.get_list()) {
                             if (_conf_data.get_username().equals(text_field.getText())) {
                                 bottom_label.setText("User Found! Game configurations loaded!");
+                                System.out.println("Level "+_conf_data.get_level_num()+" is being loaded right now");
                                 ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener(), _conf_data.get_level_num()));
                                 break;
                             }

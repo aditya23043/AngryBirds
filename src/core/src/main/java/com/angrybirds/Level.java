@@ -88,7 +88,7 @@ public class Level{
     }
 
 
-    public void save(String text_field) {
+    public void save(String text_field, int _level_num) {
 
         int returnVal;
         JFileChooser chooser;
@@ -99,12 +99,7 @@ public class Level{
         } while (returnVal != JFileChooser.APPROVE_OPTION);
 
         ConfData conf_data = new ConfData(chooser.getSelectedFile().getAbsoluteFile());
-        ArrayList<String> blocks_left = new ArrayList<>();
-        int pigs_left = pigs.size();
-        for (Block block : blocks) {
-            blocks_left.add(block.getName());
-        }
-        conf_data.add(text_field, 0, level_num, birds.size(), pigs_left, blocks_left);
+        conf_data.add(text_field, _level_num);
         conf_data.write();
 
     }

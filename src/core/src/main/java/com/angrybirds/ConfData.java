@@ -34,17 +34,19 @@ public class ConfData implements Serializable {
     private File conf_file;
 
     ConfData(File conf_file) {
+        try {
+            conf_file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.conf_file = conf_file;
+        this.conf_array = read();
     }
 
-    public void add(String username, int cur_score, int level_num, int num_birds_left, int pigs_left, ArrayList<String> blocks_left) {
+    public void add(String username, int _level_num) {
 
         this.username = username;
-        this.cur_score = cur_score;
-        this.level_num = level_num;
-        this.num_birds_left = num_birds_left;
-        this.pigs_left = pigs_left;
-        this.blocks_left = blocks_left;
+        this.level_num = _level_num;
 
         conf_array.add(this);
     }
@@ -54,20 +56,28 @@ public class ConfData implements Serializable {
         try (FileOutputStream file = new FileOutputStream(this.conf_file, false);
                 ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(ConfData.conf_array);
+            for (ConfData _conf : conf_array) {
+                System.out.println(_conf.get_username()+_conf.get_level_num());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void read() {
+    public ArrayList<ConfData> read() {
+        ArrayList<ConfData> _arr = new ArrayList<>();
         try (FileInputStream file = new FileInputStream(this.conf_file);
                 ObjectInputStream in = new ObjectInputStream(file)) {
-            ArrayList<ConfData> _arr = (ArrayList<ConfData>) in.readObject();
-            for (ConfData _conf_data : _arr) {
-            }
+            _arr = (ArrayList<ConfData>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            if (!e.getClass().equals(EOFException.class)) {
+                e.printStackTrace();
+            }
+            else {
+                System.out.println("Empty config file as of now!");
+            }
         }
+        return _arr;
 
     }
 
@@ -80,6 +90,6 @@ public class ConfData implements Serializable {
     }
 
     public int get_level_num() {
-        return level_num;
+        return this.level_num;
     }
 }

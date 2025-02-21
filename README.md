@@ -1,5 +1,7 @@
 # AngryBirds
 - CSE201 Game development project at IIITD using Java
+- Angry Birds clone with a twist of low gravity just like the Angry Birds Space
+- It currently has only three levels
 
 ### Dependencies
 
@@ -43,6 +45,7 @@ rm -rf ~/.cache
 > For any other asset, proper credits have been mentioned there only where that asset is used
 
 # Demo
+[Demo Video](./img/demo2.mp4)
 - All functionalities of the game in its current state have been mentioned in the HELP menu with proper screenshots
 
 ## Screenshots

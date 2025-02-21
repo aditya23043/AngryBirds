@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Music;
 
 public class MuteStateManager {
 
-    private static boolean mute = true;
+    private static boolean mute = false;
     private static Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));;
 
     MuteStateManager() {

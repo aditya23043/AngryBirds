@@ -48,11 +48,12 @@ public class PlayScreen extends ScreenAdapter {
     private int level_num;
     private BitmapFont main_title_font;
     private Label.LabelStyle style_h1;
-    private int score = 0; // Add score variable
-    private Label scoreLabel; // Add score label
+    private static int score = 0; // Add score variable
+    private static Label scoreLabel; // Add score label
 
     public PlayScreen(Game game, int num) {
         this.game = game;
+        this.score=0;
         this.stage = new Stage(new ExtendViewport(960, 540));
         this.skin = new Skin(Gdx.files.internal("skins/shade/uiskin.json"));
         world = new World(new Vector2(0, -9.8f), true);
@@ -220,11 +221,12 @@ public class PlayScreen extends ScreenAdapter {
 
                 ImageButton select_file = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("img/submit.png"))));
                 select_file.setSize(180, 40);
-                select_file.setPosition((Gdx.graphics.getWidth()-select_file.getWidth())/2-50, Gdx.graphics.getHeight()/2-100);
+                select_file.setPosition((Gdx.graphics.getWidth()-select_file.getWidth())/2, Gdx.graphics.getHeight()/2-100);
                 select_file.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        level.save(text_field.getText());
+                        level.save(text_field.getText(), level_num);
+                        System.out.println("Level "+level_num+" is being saved right now");
                         ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen((Game)Gdx.app.getApplicationListener(), level_num));
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -326,34 +328,38 @@ public class PlayScreen extends ScreenAdapter {
         catapult.loadBird(r1);
         birdnum++;
 
-        // Score display
-        scoreLabel = new Label("Score: " + score, skin);
-        scoreLabel.setPosition(viewport.getWorldWidth() - 120, viewport.getWorldHeight() - 30);
+        scoreLabel = new Label("Score: " + score, style_h1);
+        scoreLabel.setPosition(viewport.getWorldWidth() - 200, viewport.getWorldHeight() - 60);
         stage.addActor(scoreLabel);
 
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void incrementScore() {
-        score++;
+    public static void incrementScore(){
+        score+=700;
         scoreLabel.setText("Score: " + score);
     }
 
     public void checkGameOver() {
+        int count = 0;
         boolean allPigsDead = true;
         for (Pig pig : level.get_pigs()) {
             if (!pig.isDead()) {
+                count++;
                 allPigsDead = false;
                 break;
             }
         }
 
-        boolean allBirdsUsed = birdnum >= level.get_birds().size();
+        boolean allBirdsUsed = birdnum > level.get_birds().size();
 
-        if (allPigsDead){
-            game.setScreen(new levelVictoryScreen(level_num, 2));
+        int stars = 1;
+        if(birdnum <= 3){
+            stars = 3 - birdnum + 1;
         }
-
+        if (allPigsDead){
+            game.setScreen(new levelVictoryScreen(level_num, stars));
+        }
         if(allBirdsUsed && !allPigsDead){
             game.setScreen(new LevelFailed(game, skin,this, level_num));
         }
@@ -364,6 +370,7 @@ public class PlayScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(1 / 200f, 6, 2);
+        checkGameOver();
         stage.act(delta);
         stage.draw();
     }
